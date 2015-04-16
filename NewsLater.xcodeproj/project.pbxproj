@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27232DDE1AE030120093D998 /* RecentlyReadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27232DDD1AE030120093D998 /* RecentlyReadViewController.swift */; };
 		531841E11ADD930200461191 /* NewsLaterFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531841E01ADD930200461191 /* NewsLaterFeedController.swift */; };
 		9635D5721ADD8A76000DE3D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9635D5711ADD8A76000DE3D6 /* AppDelegate.swift */; };
 		9635D5771ADD8A76000DE3D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9635D5751ADD8A76000DE3D6 /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		27232DDD1AE030120093D998 /* RecentlyReadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentlyReadViewController.swift; sourceTree = "<group>"; };
 		531841E01ADD930200461191 /* NewsLaterFeedController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsLaterFeedController.swift; sourceTree = "<group>"; };
 		9635D56C1ADD8A76000DE3D6 /* NewsLater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsLater.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9635D5701ADD8A76000DE3D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				9635D57A1ADD8A76000DE3D6 /* LaunchScreen.xib */,
 				9635D56F1ADD8A76000DE3D6 /* Supporting Files */,
 				531841E01ADD930200461191 /* NewsLaterFeedController.swift */,
+				27232DDD1AE030120093D998 /* RecentlyReadViewController.swift */,
 			);
 			path = NewsLater;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9635D5721ADD8A76000DE3D6 /* AppDelegate.swift in Sources */,
+				27232DDE1AE030120093D998 /* RecentlyReadViewController.swift in Sources */,
 				531841E11ADD930200461191 /* NewsLaterFeedController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
