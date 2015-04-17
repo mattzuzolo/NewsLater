@@ -12,7 +12,7 @@
 		27232DE61AE088DF0093D998 /* RemindersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27232DE51AE088DF0093D998 /* RemindersViewController.swift */; };
 		531841E11ADD930200461191 /* NewsLaterFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531841E01ADD930200461191 /* NewsLaterFeedController.swift */; };
 		534137C31AE02D6400C9F974 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534137C21AE02D6400C9F974 /* Article.swift */; };
-		53F89C7F1AE035640073AE95 /* ObjectMapper.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 53F89C751AE032CC0073AE95 /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		53F89C7F1AE035640073AE95 /* ObjectMapper.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 53F89C751AE032CC0073AE95 /* ObjectMapper.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9635D5721ADD8A76000DE3D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9635D5711ADD8A76000DE3D6 /* AppDelegate.swift */; };
 		9635D5771ADD8A76000DE3D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9635D5751ADD8A76000DE3D6 /* Main.storyboard */; };
 		9635D5791ADD8A76000DE3D6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9635D5781ADD8A76000DE3D6 /* Images.xcassets */; };
