@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		27232DDE1AE030120093D998 /* RecentlyReadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27232DDD1AE030120093D998 /* RecentlyReadViewController.swift */; };
+		27232DE11AE086CE0093D998 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27232DE01AE086CE0093D998 /* ArticleViewController.swift */; };
+		27232DE61AE088DF0093D998 /* RemindersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27232DE51AE088DF0093D998 /* RemindersViewController.swift */; };
 		531841E11ADD930200461191 /* NewsLaterFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531841E01ADD930200461191 /* NewsLaterFeedController.swift */; };
 		534137C31AE02D6400C9F974 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534137C21AE02D6400C9F974 /* Article.swift */; };
 		53F89C7F1AE035640073AE95 /* ObjectMapper.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 53F89C751AE032CC0073AE95 /* ObjectMapper.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -79,6 +81,8 @@
 
 /* Begin PBXFileReference section */
 		27232DDD1AE030120093D998 /* RecentlyReadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentlyReadViewController.swift; sourceTree = "<group>"; };
+		27232DE01AE086CE0093D998 /* ArticleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
+		27232DE51AE088DF0093D998 /* RemindersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemindersViewController.swift; sourceTree = "<group>"; };
 		531841E01ADD930200461191 /* NewsLaterFeedController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsLaterFeedController.swift; sourceTree = "<group>"; };
 		534137C21AE02D6400C9F974 /* Article.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		53F89C6D1AE032CC0073AE95 /* ObjectMapper.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ObjectMapper.xcodeproj; path = ObjectMapper/ObjectMapper.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -152,6 +156,8 @@
 				531841E01ADD930200461191 /* NewsLaterFeedController.swift */,
 				27232DDD1AE030120093D998 /* RecentlyReadViewController.swift */,
 				534137C21AE02D6400C9F974 /* Article.swift */,
+				27232DE01AE086CE0093D998 /* ArticleViewController.swift */,
+				27232DE51AE088DF0093D998 /* RemindersViewController.swift */,
 			);
 			path = NewsLater;
 			sourceTree = "<group>";
@@ -322,6 +328,8 @@
 			files = (
 				9635D5721ADD8A76000DE3D6 /* AppDelegate.swift in Sources */,
 				27232DDE1AE030120093D998 /* RecentlyReadViewController.swift in Sources */,
+				27232DE61AE088DF0093D998 /* RemindersViewController.swift in Sources */,
+				27232DE11AE086CE0093D998 /* ArticleViewController.swift in Sources */,
 				531841E11ADD930200461191 /* NewsLaterFeedController.swift in Sources */,
 				534137C31AE02D6400C9F974 /* Article.swift in Sources */,
 			);
