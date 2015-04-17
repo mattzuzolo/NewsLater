@@ -7,15 +7,42 @@
 //
 
 import Foundation
+import ObjectMapper
 
 //Our Basic Story
-struct Article{
-    var headline: NSString
-    var byline: NSString
-    //var abstract: NSString
-    var publishedDate: NSString
-    var url: NSString
-    var thumbnailUrl: NSString //Points to the Thumbnail object
-    //var mediaUrls: Array<NSString>
-    var tags: Array<NSString>
+class Article: Mappable {
+    var headline: NSString?
+    var publication: NSString?
+    var byline: NSString?
+    var publishedDate: NSDate?
+    var url: NSString?
+    var thumbnailUrl: NSString? //Points to the Thumbnail object
+    var tags: [NSString]?
+    
+    required init?(_ map: Map) {
+        mapping(map)
+    }
+    
+    //Basic mapping function.
+    func mapping(map: Map) {
+        publication     <- map["publication"]
+        if publication != nil {
+            if(publication!.isEqual("New York Times")){
+                //Do all the NYT mapping
+            } else if(publication!.isEqual("Washington Post")){
+                //Do all the WP mapping
+            } else if(publication!.isEqual("USA Today")){
+                //Do all the USA Today mapping
+            }
+            //Do all the unified mapping.
+            headline        <- map["headline"]
+            byline          <- map["byline"]
+            publishedDate   <- (map["publishedDate"], DateTransform())
+            url             <- map["url"]
+            thumbnailUrl    <- map["thumbnailUrl"]
+            tags            <- map["tags"]
+        }
+    }
+    
 }
+
