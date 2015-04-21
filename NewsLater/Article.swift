@@ -44,5 +44,9 @@ class Article: Mappable {
         }
     }
     
+    func loadFeed(){
+        
+    }
+    
 }
 
