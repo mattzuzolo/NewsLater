@@ -113,6 +113,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Tr8-Rk-8So" id="gTm-1u-d0u"/>
+                                    <outlet property="delegate" destination="Tr8-Rk-8So" id="q0j-ev-YKi"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -127,6 +131,9 @@
                             <constraint firstAttribute="bottom" secondItem="MGo-hH-E39" secondAttribute="bottom" id="gcI-Fz-XGQ"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="reminderTable" destination="MGo-hH-E39" id="xe1-jY-T8i"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wkm-z8-QGy" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="KWX-Tf-BA9" userLabel="Exit" sceneMemberID="exit"/>

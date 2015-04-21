@@ -10,6 +10,7 @@ import UIKit
 
 class RemindersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var reminderTable: UITableView!
     var reminders:[String] = ["6:00AM", "7:00AM", "8:00AM"]
 
     override func viewDidLoad() {
