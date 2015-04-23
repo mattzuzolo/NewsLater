@@ -13,8 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    private var readArticles:[Article] = Array<Article>()
-    private var recentlyRead:[Article] = Array<Article>()
+    private var readArticles:[Article]? = Array<Article>()
+    private var recentlyRead:[Article]? = Array<Article>()
     
     let articlesFile = "read_articles.txt"
     let recentlyReadFile = "recently_read.txt"
@@ -27,13 +27,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     }
     
-    func loadArticles(file: String) -> [Article]{
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(file) as! [Article]
+    func loadArticles(file: String) -> [Article]?{
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(file) as! [Article]?
     }
     
 
-    func saveArticles(articles: [Article], file: String){
-        NSKeyedArchiver.archiveRootObject(readArticles, toFile: file)
+    func saveArticles(articles: [Article]?, file: String){
+        if (articles != nil){
+            NSKeyedArchiver.archiveRootObject(readArticles!, toFile: file)
+        }
     }
     
     func applicationWillResignActive(application: UIApplication) {
