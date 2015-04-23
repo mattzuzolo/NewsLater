@@ -11,7 +11,7 @@ import UIKit
 class RemindersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var reminderTable: UITableView!
-    var reminders:[String] = ["6:00AM", "7:00AM", "8:00AM"]
+    var reminders:[String] = ["6 days", "7 hours", "8 hours"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,12 +38,20 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
         if(indexPath.section == 0){
             cellIdentifier = "staticCellType"
             cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier as! String, forIndexPath: indexPath) as? UITableViewCell
-            cell!.textLabel?.text = "switch"
+            cell!.textLabel?.text = "Reminde me to come back"
+            
+            var reminderSwitch=UISwitch(frame:CGRectMake(150, 300, 0, 0));
+            cell?.accessoryView = reminderSwitch
+            reminderSwitch.on = true
+            reminderSwitch.setOn(true, animated: false);
+            reminderSwitch.addTarget(self, action: "switchValueDidChange:", forControlEvents: .ValueChanged);
+            self.view.addSubview(reminderSwitch);
             
         }else if(indexPath.section == 1){
             cellIdentifier = "dynamicCellType"
             cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier as! String, forIndexPath: indexPath) as? UITableViewCell
-            cell!.textLabel?.text = reminders[indexPath.row]
+            cell!.textLabel?.text = "Come back in"
+            cell!.detailTextLabel?.text = reminders[indexPath.row]
         }
         
         return cell!
@@ -51,6 +59,16 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //selectedReminder = reminders[indexPath.row]
+    }
+    
+    func switchValueDidChange(sender:UISwitch!)
+    {
+        if (sender.on == true){
+            println("on")
+        }
+        else{
+            println("off")
+        }
     }
     
 }
