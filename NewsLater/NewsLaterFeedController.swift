@@ -30,6 +30,34 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         })
     }
     
+    //Start Copy/Pasta from Homework:
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //See if we need to check this one before !
+        return articleMapper.articlesNYT.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        //Why does it need as! instead of as  ... look this up
+        let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! UITableViewCell
+        
+        cell.textLabel?.text = articleMapper.articlesNYT[indexPath.row].headline!
+        cell.detailTextLabel?.text = articleMapper.articlesNYT[indexPath.row].publishedDate?.description
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        selectedArticle = articleMapper.articlesNYT[indexPath.row]
+        //performSegueWithIdentifier("goToArticle", sender: self)
+    }
+    
+    //End CopyPasta
+    
     @IBAction func returnToFeed(segue: UIStoryboardSegue) {
         
     }

@@ -11,9 +11,9 @@ import ObjectMapper
 
 //Our Basic Story
 class Article: Mappable {
-    var headline: NSString?
-    var publication: NSString?
-    var byline: NSString?
+    var headline: String?
+    var publication: String?
+    var byline: String?
     var publishedDate: NSDate?
     var url: NSString?
     var thumbnailUrl: NSString? //Points to the Thumbnail object

@@ -10,17 +10,19 @@ import Foundation
 import ObjectMapper
 
 class ArticleMapper: NSObject{
-    var articlesNYT: [Article]?
+    var articlesNYT = Array<Article>()
     //var articlesWP: [Article]?
     //var articleUSAT: [Article]?
+    var filteredArticles = Array<Article>()
     
     let NYTUrl = "https://api.nytimes.com/svc/topstories/v1/home.json?api-key=3caa4c3969858fadeaa4bbe5a3529235:13:71572887"
     
     func loadArticles(completionHandler: (ArticleMapper, String?) -> Void){
-        callAPI(NYTUrl, completionHandler: completionHandler)
+        articlesNYT = callAPI(NYTUrl, completionHandler: completionHandler)
     }
     
-    func callAPI(URL: String, completionHandler: (ArticleMapper, String?) -> Void){
+    func callAPI(URL: String, completionHandler: (ArticleMapper, String?) -> Void) -> [Article]{
+        var articles = Array<Article>()
         if let url = NSURL(string: URL) {
             let urlRequest = NSMutableURLRequest(URL: url)
             let session = NSURLSession.sharedSession()
@@ -31,17 +33,20 @@ class ArticleMapper: NSObject{
                         completionHandler(self, error.localizedDescription)
                     })
                 } else {
-                    //self.jsonParser(data, completionHandler)
+                    //self.jsonParser(data, completionHandler) 
+                    //We'll probably need to parse out each individual article before mapping it.
                     let jsonData = NSString(data: data!, encoding: NSUTF8StringEncoding)
-                    let articles = Mapper<Article>().map(jsonData)
+                    articles.append(Mapper<Article>().map(jsonData)!)
                 }
             })
             
             jsonParseTask.resume()
+            return articles
         } else {
             dispatch_async(dispatch_get_main_queue(), {
                 completionHandler(self, "Invalid URL")
             })
+            return []
         }
         
     }
