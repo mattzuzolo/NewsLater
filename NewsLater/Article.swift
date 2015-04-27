@@ -10,15 +10,25 @@ import Foundation
 import ObjectMapper
 
 //Base Article Object
-class Article: Mappable {
+class Article: NSObject {
     var headline: String?
     var publication: String?
     var byline: String?
-    var publishedDate: NSDate?
+    var publishedDate: NSString?
     var url: NSString?
     var thumbnailUrl: NSString? //Points to the Thumbnail object
     var tags: [NSString]?
     
+    init(headline: String?, publication: String?, byline: String?, publishedDate: NSString?, url: NSString?, thumbnailUrl: NSString?, tags: [NSString]?){
+        self.headline = headline
+        self.publication = publication
+        self.byline = byline
+        self.publishedDate = publishedDate
+        self.url = url
+        self.thumbnailUrl = thumbnailUrl
+        self.tags = tags        
+    }
+    /*
     required init?(_ map: Map) {
         mapping(map)
     }
@@ -46,7 +56,7 @@ class Article: Mappable {
     
     func loadFeed(){
         
-    }
+    }*/
     
 }
 
