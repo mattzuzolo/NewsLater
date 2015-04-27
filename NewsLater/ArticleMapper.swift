@@ -23,6 +23,7 @@ class ArticleMapper: NSObject{
     
     func callAPI(URL: String, completionHandler: (ArticleMapper, String?) -> Void) -> [Article]{
         var articles = Array<Article>()
+        var apiResponse: APIResponse
         if let url = NSURL(string: URL) {
             let urlRequest = NSMutableURLRequest(URL: url)
             let session = NSURLSession.sharedSession()
@@ -36,7 +37,11 @@ class ArticleMapper: NSObject{
                     //self.jsonParser(data, completionHandler) 
                     //We'll probably need to parse out each individual article before mapping it.
                     let jsonData = NSString(data: data!, encoding: NSUTF8StringEncoding)
-                    articles.append(Mapper<Article>().map(jsonData)!)
+                    apiResponse = Mapper<APIResponse>().map(jsonData!)!
+                    for result in (apiResponse.results! as NSArray){
+                        articles.append(result as! Article)
+                    }
+                    //articles.append(Mapper<Article>().map(apiResponse.results[0] as! NSString)!)
                 }
             })
             

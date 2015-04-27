@@ -37,7 +37,6 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //See if we need to check this one before !
         return articleMapper.articlesNYT.count
     }
     

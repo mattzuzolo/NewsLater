@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-//Our Basic Story
+//Base Article Object
 class Article: Mappable {
     var headline: String?
     var publication: String?
