@@ -45,13 +45,13 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         //Why does it need as! instead of as  ... look this up
         let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! UITableViewCell
         
-        cell.textLabel?.text = articleMapper.articlesNYT[indexPath.row].headline!
-        cell.detailTextLabel?.text = articleMapper.articlesNYT[indexPath.row].publishedDate?.description
+        cell.textLabel?.text = articleMapper.filteredArticles[indexPath.row].headline!
+        cell.detailTextLabel?.text = articleMapper.filteredArticles[indexPath.row].publishedDate?.description
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectedArticle = articleMapper.articlesNYT[indexPath.row]
+        selectedArticle = articleMapper.filteredArticles[indexPath.row]
         //performSegueWithIdentifier("goToArticle", sender: self)
     }
     

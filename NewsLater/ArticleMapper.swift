@@ -15,10 +15,16 @@ class ArticleMapper: NSObject{
     //var articleUSAT: [Article]?
     var filteredArticles = Array<Article>()
     
+    
+    
     let NYTUrl = "https://api.nytimes.com/svc/topstories/v1/home.json?api-key=3caa4c3969858fadeaa4bbe5a3529235:13:71572887"
     
     func loadArticles(completionHandler: (ArticleMapper, String?) -> Void){
         articlesNYT = callAPI(NYTUrl)
+        
+        
+        //Do the filtering stuff here
+        filteredArticles += articlesNYT
         dispatch_async(dispatch_get_main_queue(), {completionHandler(self, nil)})
     }
     
