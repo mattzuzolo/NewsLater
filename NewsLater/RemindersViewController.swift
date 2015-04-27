@@ -11,35 +11,64 @@ import UIKit
 class RemindersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var reminderTable: UITableView!
-    var reminders:[String] = ["6:00AM", "7:00AM", "8:00AM"]
-
+    var reminders:[String] = ["6 days", "7 hours", "8 hours"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
-        // Do any additional setup after loading the view.
     }
-
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return reminders.count
+        if(section == 0){
+            return 2
+        }else{
+            return reminders.count
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
+        var cellIdentifier: NSString?
         
-        cell.textLabel?.text = reminders[indexPath.row]
+        var cell:UITableViewCell?
         
-        return cell
+        if(indexPath.section == 0){
+            cellIdentifier = "staticCellType"
+            cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier as! String, forIndexPath: indexPath) as? UITableViewCell
+            cell!.textLabel?.text = "Reminde me to come back"
+            
+            var reminderSwitch=UISwitch(frame:CGRectMake(150, 300, 0, 0));
+            cell?.accessoryView = reminderSwitch
+            reminderSwitch.on = true
+            reminderSwitch.setOn(true, animated: false);
+            reminderSwitch.addTarget(self, action: "switchValueDidChange:", forControlEvents: .ValueChanged);
+            self.view.addSubview(reminderSwitch);
+            
+        }else if(indexPath.section == 1){
+            cellIdentifier = "dynamicCellType"
+            cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier as! String, forIndexPath: indexPath) as? UITableViewCell
+            cell!.textLabel?.text = "Come back in"
+            cell!.detailTextLabel?.text = reminders[indexPath.row]
+        }
         
+        return cell!
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //selectedReminder = reminders[indexPath.row]
+    }
+    
+    func switchValueDidChange(sender:UISwitch!)
+    {
+        if (sender.on == true){
+            println("on")
+        }
+        else{
+            println("off")
+        }
     }
     
 }
