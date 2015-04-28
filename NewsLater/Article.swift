@@ -9,8 +9,9 @@
 import Foundation
 import ObjectMapper
 
+
 //Base Article Object
-class Article: NSObject {
+class Article: NSObject, NSCoding {
     var headline: String?
     var publication: String?
     var byline: String?
@@ -30,8 +31,33 @@ class Article: NSObject {
     }
     /*
     required init?(_ map: Map) {
+        super.init()
         mapping(map)
     }
+    */
+    required init(coder aDecoder: NSCoder) {
+        super.init()
+        self.headline = aDecoder.decodeObjectForKey("headline") as! String?
+        self.publication = aDecoder.decodeObjectForKey("publication") as! String?
+        self.byline = aDecoder.decodeObjectForKey("byline") as! String?
+        self.publishedDate = aDecoder.decodeObjectForKey("publishedDate") as! NSString?
+        self.url = aDecoder.decodeObjectForKey("url") as! NSString?
+        self.thumbnailUrl = aDecoder.decodeObjectForKey("thumbnailUrl") as! NSString?
+        self.tags = aDecoder.decodeObjectForKey("tags") as! [NSString]?
+        
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(self.headline, forKey: "headline")
+        aCoder.encodeObject(self.publication, forKey: "publication")
+        aCoder.encodeObject(self.byline, forKey: "byline")
+        aCoder.encodeObject(self.publishedDate, forKey: "publishedDate")
+        aCoder.encodeObject(self.url, forKey: "url")
+        aCoder.encodeObject(self.thumbnailUrl, forKey: "thumbnailUrl")
+        aCoder.encodeObject(self.tags, forKey: "tags")
+
+    }
+    /*
     
     //Basic mapping function.
     func mapping(map: Map) {
@@ -53,6 +79,7 @@ class Article: NSObject {
             tags            <- map["tags"]
         }
     }
+    
     
     func loadFeed(){
         
