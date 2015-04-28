@@ -12,20 +12,20 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
 
     var articleMapper: ArticleMapper = ArticleMapper()
     var selectedArticle: Article?
-    let NYTUrl = "https://api.nytimes.com/svc/topstories/v1/home.json?api-key=3caa4c3969858fadeaa4bbe5a3529235:13:71572887"
     
     @IBOutlet weak var feedView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        articleMapper.loadNYTArticles(NYTUrl, completionHandler:{
+        articleMapper.loadArticles("NYT", completionHandler:{
             (articles, errorString) -> Void in
             if let unwrappedErrorString = errorString {
                 //Error, so popup an alert
                 self.showError("Could not load data from NYTimes", error: errorString!)
                 
             } else {
+                self.articleMapper.filteredArticles = self.articleMapper.articlesNYT
                 self.feedView.reloadData()
             }
         })
