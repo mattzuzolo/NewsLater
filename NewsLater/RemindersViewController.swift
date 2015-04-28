@@ -23,7 +23,7 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(section == 0){
-            return 2
+            return 1
         }else{
             return reminders.count
         }

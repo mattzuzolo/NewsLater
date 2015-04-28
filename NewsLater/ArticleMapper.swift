@@ -54,10 +54,7 @@ class ArticleMapper: NSObject{
                                 if(status == "OK") {
                                     let results = jsonResult["results"] as? NSArray
                                     for article in results!{
-                                        //var mappable = NSString(data: article as! NSData, encoding: NSUTF8StringEncoding)! as String//NSString(data:article as! NSData, encoding:NSUTF8StringEncoding)
-                                        //articles.append(Mapper<Article>().map(mappable)!)
                                         let headline = article["title"] as? String
-                                        //let publication = article[" String?
                                         let byline = article["byline"] as? String
                                         let publishedDate = article["published_date"] as? NSString
                                         let url = article["url"] as? NSString
