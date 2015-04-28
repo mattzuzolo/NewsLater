@@ -9,27 +9,38 @@
 import Foundation
 import ObjectMapper
 
-//Our Basic Story
-class Article: NSObject, Mappable, NSCoding {
-    var headline: NSString?
-    var publication: NSString?
-    var byline: NSString?
-    var publishedDate: NSDate?
+
+//Base Article Object
+class Article: NSObject, NSCoding {
+    var headline: String?
+    var publication: String?
+    var byline: String?
+    var publishedDate: NSString?
     var url: NSString?
     var thumbnailUrl: NSString? //Points to the Thumbnail object
     var tags: [NSString]?
     
+    init(headline: String?, publication: String?, byline: String?, publishedDate: NSString?, url: NSString?, thumbnailUrl: NSString?, tags: [NSString]?){
+        self.headline = headline
+        self.publication = publication
+        self.byline = byline
+        self.publishedDate = publishedDate
+        self.url = url
+        self.thumbnailUrl = thumbnailUrl
+        self.tags = tags        
+    }
+    /*
     required init?(_ map: Map) {
         super.init()
         mapping(map)
     }
-    
+    */
     required init(coder aDecoder: NSCoder) {
         super.init()
-        self.headline = aDecoder.decodeObjectForKey("headline") as! NSString?
-        self.publication = aDecoder.decodeObjectForKey("publication") as! NSString?
-        self.byline = aDecoder.decodeObjectForKey("byline") as! NSString?
-        self.publishedDate = aDecoder.decodeObjectForKey("publishedDate") as! NSDate?
+        self.headline = aDecoder.decodeObjectForKey("headline") as! String?
+        self.publication = aDecoder.decodeObjectForKey("publication") as! String?
+        self.byline = aDecoder.decodeObjectForKey("byline") as! String?
+        self.publishedDate = aDecoder.decodeObjectForKey("publishedDate") as! NSString?
         self.url = aDecoder.decodeObjectForKey("url") as! NSString?
         self.thumbnailUrl = aDecoder.decodeObjectForKey("thumbnailUrl") as! NSString?
         self.tags = aDecoder.decodeObjectForKey("tags") as! [NSString]?
@@ -46,6 +57,7 @@ class Article: NSObject, Mappable, NSCoding {
         aCoder.encodeObject(self.tags, forKey: "tags")
 
     }
+    /*
     
     //Basic mapping function.
     func mapping(map: Map) {
@@ -68,9 +80,10 @@ class Article: NSObject, Mappable, NSCoding {
         }
     }
     
+    
     func loadFeed(){
         
-    }
+    }*/
     
 }
 
