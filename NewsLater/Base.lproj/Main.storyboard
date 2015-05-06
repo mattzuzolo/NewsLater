@@ -215,10 +215,10 @@
             </objects>
             <point key="canvasLocation" x="377" y="328"/>
         </scene>
-        <!--View Controller-->
+        <!--Reminder Picker View Controller-->
         <scene sceneID="92B-KZ-U88">
             <objects>
-                <viewController id="gVJ-GI-Gfz" sceneMemberID="viewController">
+                <viewController id="gVJ-GI-Gfz" customClass="ReminderPickerViewController" customModule="NewsLater" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dxH-WI-eyG"/>
                         <viewControllerLayoutGuide type="bottom" id="88W-6V-FeY"/>
@@ -251,6 +251,9 @@
                             <constraint firstAttribute="trailing" secondItem="yrE-BH-sHl" secondAttribute="trailing" id="hCO-Qx-dqS"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="reminderTimePicker" destination="yrE-BH-sHl" id="6sz-mJ-N94"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mfM-mA-l6s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
