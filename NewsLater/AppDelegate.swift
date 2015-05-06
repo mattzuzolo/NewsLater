@@ -16,26 +16,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var readArticles:[Article]? = Array<Article>()
     private var recentlyRead:[Article]? = Array<Article>()
     
-    let articlesFile = "read_articles.txt"
-    let recentlyReadFile = "recently_read.txt"
+    let articlesFile = NSBundle.mainBundle().pathForResource("read_articles", ofType: "txt")
+    let recentlyReadFile = NSBundle.mainBundle().pathForResource("recently_read", ofType: "txt")
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        readArticles = loadArticles(articlesFile)
-        recentlyRead = loadArticles(recentlyReadFile)
+        
+        readArticles = loadArticles(articlesFile!)
+        recentlyRead = loadArticles(recentlyReadFile!)
         return true
     
     }
     
     func loadArticles(file: String) -> [Article]?{
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(file) as! [Article]?
+        var readError:NSError?
+        let data = NSData(contentsOfFile:file,
+            options: NSDataReadingOptions.DataReadingUncached,
+            error:&readError)
+        
+        if (data == nil || data?.length == 0){
+            return Array<Article>()
+        }
+        else{
+            let articles = NSKeyedUnarchiver.unarchiveObjectWithData(data!) as! [Article]?
+            
+            if (articles != nil){
+                return articles
+            }
+            else {
+                return nil
+            }
+        }
     }
     
 
     func saveArticles(articles: [Article]?, file: String){
         if (articles != nil){
-            NSKeyedArchiver.archiveRootObject(readArticles!, toFile: file)
+            let data = NSKeyedArchiver.archivedDataWithRootObject(articles!)
+            
+            if (data.length == 0){
+                println("Empty data")
+            }
+            let success = data.writeToFile(file, atomically: true)
         }
+    }
+    
+    func getRecentlyRead() -> [Article]?{
+        return recentlyRead
+    }
+    
+    func getReadArticles() -> [Article]?{
+        return readArticles
+    }
+    
+    func addArticle(newArticle: Article){
+        readArticles?.append(newArticle)
+        recentlyRead?.append(newArticle)
+
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -58,8 +95,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        saveArticles(readArticles, file: articlesFile)
-        saveArticles(recentlyRead, file: recentlyReadFile)
+        saveArticles(readArticles, file: articlesFile!)
+        saveArticles(recentlyRead, file: recentlyReadFile!)
         
     }
 
