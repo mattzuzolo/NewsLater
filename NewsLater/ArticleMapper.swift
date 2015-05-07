@@ -10,27 +10,22 @@ import Foundation
 import ObjectMapper
 
 class ArticleMapper: NSObject{
-    var articlesNYT = Array<Article>()
-    var articlesGD = Array<Article>()
-    var articlesUSAT = Array<Article>()
+    var articlesNYT = Set<Article>()
+    var articlesGD = Set<Article>()
+    var articlesUSAT = Set<Article>()
     var filteredArticles = Array<Article>()
     
     //Dictionary type to help facilitate a more generic load method
-    var apiArraysDictionary = [String: [Article]]()
+    let urlDictionary = ["NYT": "https://api.nytimes.com/svc/topstories/v1/home.json?api-key=3caa4c3969858fadeaa4bbe5a3529235:13:71572887", "GD": "http://content.guardianapis.com/search?api-key=p7x4zprsbrgjpwx5nwuhqzkz&show-fields=thumbnail,byline&show-tags=all&days=3", "USAT": "http://api.usatoday.com/open/articles/mobile/topnews?encoding=json&api_key=qjc2b9y9ddpaj9buv9ksy4ju&days=3"]
     
     override init(){
         self.filteredArticles = Array<Article>() //Make sure it's a fresh empty array on init.
-        self.apiArraysDictionary["NYT"] = articlesNYT
-        self.apiArraysDictionary["GD"] = articlesGD
-        self.apiArraysDictionary["USAT"] = articlesUSAT
+        self.articlesNYT = Set<Article>()
+        self.articlesGD = Set<Article>()
+        self.articlesUSAT = Set<Article>()
     }
     
     func loadArticles(api: String, completionHandler: (ArticleMapper, String?) -> Void) {
-        //TODO, make var, move up and just initialize it here with the date bits added.
-        let urlDictionary = ["NYT": "https://api.nytimes.com/svc/topstories/v1/home.json?api-key=3caa4c3969858fadeaa4bbe5a3529235:13:71572887", "GD": "http://content.guardianapis.com/search?api-key=p7x4zprsbrgjpwx5nwuhqzkz&show-fields=thumbnail,byline&show-tags=all&days=3", "USAT": "http://api.usatoday.com/open/articles/mobile/topnews?encoding=json&api_key=qjc2b9y9ddpaj9buv9ksy4ju&days=3"]
-        
-        apiArraysDictionary[api] = Array<Article>() //Get a fresh Array to load in stories
-        
         let URL = urlDictionary[api];
         if let url = NSURL(string: URL!) {
             let urlRequest = NSMutableURLRequest(URL: url)
@@ -111,9 +106,9 @@ class ArticleMapper: NSObject{
                                                     }
                                                     
                                                     //Add it all into our stories array
-                                                    articlesNYT.append(Article(headline: headline, publication: "New York Times", byline: byline, publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
+                                                    articlesNYT.insert(Article(headline: headline, publication: "New York Times", byline: byline, publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
                                                 }
-                                                apiArraysDictionary["NYT"] = articlesNYT
+                                                //apiArraysDictionary["NYT"] = articlesNYT
                                             }
                                         }
                                     }
@@ -178,14 +173,14 @@ class ArticleMapper: NSObject{
                                         }
                                         
                                         //Add it all into our stories array
-                                        articlesGD.append(Article(headline: headline, publication: "The Guardian", byline: byline, publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
+                                        articlesGD.insert(Article(headline: headline, publication: "The Guardian", byline: byline, publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
                                     
                                         
                                     }
                                 }
                                 
                             }
-                            apiArraysDictionary["GD"] = articlesGD
+                            //apiArraysDictionary["GD"] = articlesGD
                         }
                         dispatch_async(dispatch_get_main_queue(), {completionHandler(self, nil)})
                     }
@@ -230,10 +225,12 @@ class ArticleMapper: NSObject{
                                 tagSet = tagSet.subtract(nonTags)
                                 storyTags = Array(tagSet)
                                 
+                                //let thumbnailUrl = NSURL.fileURLWithPath("usatoday.png")
+                                
                                 //Add it all into our stories array
-                                articlesUSAT.append(Article(headline: headline, publication: "USA Today", byline: "", publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
+                                articlesUSAT.insert(Article(headline: headline, publication: "USA Today", byline: "", publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
                             }
-                            apiArraysDictionary["USAT"] = articlesUSAT
+                            //apiArraysDictionary["USAT"] = articlesUSAT
                         }
                     }
                     
@@ -248,7 +245,27 @@ class ArticleMapper: NSObject{
         }
     }
 
-    func filterAPI(fresh: Bool){
+    func filterAPI(fresh: Bool, delegate: AppDelegate){
         //Filter all the things.
+        var filteredSet = Set<Article>()
+        let readArticles = delegate.getReadArticlesSet()
+        
+        if(fresh){
+           self.filteredArticles = Array<Article>()
+        }
+        
+        //Filter out any read articles
+        articlesNYT = articlesNYT.subtract(readArticles)
+        articlesGD = articlesGD.subtract(readArticles)
+        articlesUSAT = articlesUSAT.subtract(readArticles)
+        
+        //Compare article tags to determine if articles in different sets are too similar
+        //For the time being we are placing a higher priority on NYT articles, then Guardian, then USAToday
+        //Rational: NYT provides a heavily curated list with the API we are using, the Guardian has a more focused hit
+        //with actual tags provided, and finally the USAToday tags are derived and the API is archaic.
+        for articles in articlesNYT {
+            
+        }
+        
     }
 }

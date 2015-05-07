@@ -69,6 +69,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return readArticles
     }
     
+    func getReadArticlesSet() -> Set<Article>{
+        if(readArticles != nil){
+            return Set(readArticles!)
+        } else {
+            return Set<Article>()
+        }
+    }
+    
     func addArticle(newArticle: Article){
         readArticles?.append(newArticle)
         recentlyRead?.append(newArticle)

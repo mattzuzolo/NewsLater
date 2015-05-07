@@ -22,6 +22,9 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         //set row height so that 5 stories will fill feed
         feedView.rowHeight = feedView.frame.height / 5
 
+        //Chained completionHandlers to ensure they all get called before loading the data. 
+        //Main issue with this (other than that they can't parrallel call) is that there
+        //is a total fail if even one of the calls fails.
         articleMapper.loadArticles("NYT", completionHandler:{
             (articles, errorString) -> Void in
             if let unwrappedErrorString = errorString {
@@ -29,7 +32,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
                 self.showError("Could not load data from New York Times", error: errorString!)
                 
             } else {
-                self.articleMapper.filteredArticles += self.articleMapper.articlesNYT
+                //self.articleMapper.filteredArticles += self.articleMapper.articlesNYT
                 self.articleMapper.loadArticles("GD", completionHandler:{
                     (articles, errorString) -> Void in
                     if let unwrappedErrorString = errorString {
@@ -37,7 +40,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
                         self.showError("Could not load data from the Guardian", error: errorString!)
                         
                     } else {
-                        self.articleMapper.filteredArticles += self.articleMapper.articlesGD
+                        //self.articleMapper.filteredArticles += self.articleMapper.articlesGD
                         self.articleMapper.loadArticles("USAT", completionHandler:{
                             (articles, errorString) -> Void in
                             if let unwrappedErrorString = errorString {
@@ -45,8 +48,8 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
                                 self.showError("Could not load data from USA Today", error: errorString!)
                                 
                             } else {
-                                self.articleMapper.filteredArticles += self.articleMapper.articlesUSAT
-                                self.articleMapper.filterAPI(true) //bool value is if it's fresh or not.
+                                //self.articleMapper.filteredArticles += self.articleMapper.articlesUSAT
+                                self.articleMapper.filterAPI(true, delegate: self.appDelegate) //bool value is if it's fresh or not.
                                 self.feedView.reloadData()
                             }
                         })
@@ -58,8 +61,6 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         
        
     }
-    
-    //Start Copy/Pasta from Homework:
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -83,8 +84,6 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         appDelegate.addArticle(selectedArticle!)
         //performSegueWithIdentifier("goToArticle", sender: self)
     }
-    
-    //End CopyPasta
     
     @IBAction func returnToFeed(segue: UIStoryboardSegue) {
         
