@@ -12,20 +12,23 @@ import ObjectMapper
 class ArticleMapper: NSObject{
     var articlesNYT = Array<Article>()
     var articlesGD = Array<Article>()
-    var articleUSAT = Array<Article>()
+    var articlesUSAT = Array<Article>()
     var filteredArticles = Array<Article>()
     
     //Dictionary type to help facilitate a more generic load method
     var apiArraysDictionary = [String: [Article]]()
-    let urlDictionary = ["NYT": "https://api.nytimes.com/svc/topstories/v1/home.json?api-key=3caa4c3969858fadeaa4bbe5a3529235:13:71572887", "GD": "guardianURL", "USAT": "USATURL"]
     
     override init(){
+        self.filteredArticles = Array<Article>() //Make sure it's a fresh empty array on init.
         self.apiArraysDictionary["NYT"] = articlesNYT
         self.apiArraysDictionary["GD"] = articlesGD
-        self.apiArraysDictionary["USAT"] = articleUSAT
+        self.apiArraysDictionary["USAT"] = articlesUSAT
     }
     
     func loadArticles(api: String, completionHandler: (ArticleMapper, String?) -> Void) {
+        //TODO, make var, move up and just initialize it here with the date bits added.
+        let urlDictionary = ["NYT": "https://api.nytimes.com/svc/topstories/v1/home.json?api-key=3caa4c3969858fadeaa4bbe5a3529235:13:71572887", "GD": "http://content.guardianapis.com/search?api-key=p7x4zprsbrgjpwx5nwuhqzkz&show-fields=thumbnail,byline&show-tags=all&days=3", "USAT": "http://api.usatoday.com/open/articles/mobile/topnews?encoding=json&api_key=qjc2b9y9ddpaj9buv9ksy4ju&days=3"]
+        
         apiArraysDictionary[api] = Array<Article>() //Get a fresh Array to load in stories
         
         let URL = urlDictionary[api];
@@ -41,6 +44,10 @@ class ArticleMapper: NSObject{
                 } else {
                     if(api == "NYT"){
                         self.nytJsonParser(data, completionHandler: completionHandler)
+                    } else if(api == "GD"){
+                        self.gdJsonParser(data, completionHandler: completionHandler)
+                    } else if(api == "USAT"){
+                        self.usatJsonParser(data, completionHandler: completionHandler)
                     }
                 }
             })
@@ -56,9 +63,6 @@ class ArticleMapper: NSObject{
     func nytJsonParser(jsonData: NSData, completionHandler: (ArticleMapper, String?) -> Void){
         var jsonError: NSError?
         
-        //So this way works, but I feel like Swift should be smarter than this
-        //IE: map jsonFields to object parameters with the same key.
-        //Something like var TopStories = JSONParse(jsonData, Story.class) or somesuch.  Oh well.
         if let jsonResult = NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as? NSDictionary {
             if (jsonResult.count > 0) {
                 if let status = jsonResult["status"] as? NSString {
@@ -72,7 +76,6 @@ class ArticleMapper: NSObject{
                                             if let publishedDate = story["published_date"] as? NSString {
                                                 if let abstract = story["abstract"] as? NSString {
                                                     
-                                                    //get media, assume 0 is the thumbnail
                                                     //Note there is a property "format" that indicates type including thumbnail
                                                     var storyMedia = Array<NSString>()
                                                     if let media = story["multimedia"] as? NSArray {
@@ -110,6 +113,7 @@ class ArticleMapper: NSObject{
                                                     //Add it all into our stories array
                                                     articlesNYT.append(Article(headline: headline, publication: "New York Times", byline: byline, publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
                                                 }
+                                                apiArraysDictionary["NYT"] = articlesNYT
                                             }
                                         }
                                     }
@@ -127,5 +131,124 @@ class ArticleMapper: NSObject{
                 dispatch_async(dispatch_get_main_queue(), {completionHandler(self, "\(unwrappedError)")})
             }
         }
+    }
+    
+    func gdJsonParser(jsonData: NSData, completionHandler: (ArticleMapper, String?) -> Void){
+        var jsonError: NSError?
+        
+        if let jsonResults = NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as? NSDictionary {
+            if let jsonResult = jsonResults["response"] as? NSDictionary {
+            //if let jsonResult = jsonResponse?.fi {
+            //if (jsonResults.count > 0) {
+                
+                //for jsonResult in jsonResponse! {
+                //    let stattest = jsonResult["status"]
+                //}
+                //let jsonResponse = jsonResults["response"] as? NSDictionary
+                if let status = jsonResult["status"] as? NSString {
+                    if(status == "ok") {
+                        let num_results = jsonResult["num_results"] as? Int
+                        if let results = jsonResult["results"] as? NSArray {
+                            for story in results {
+                                if let headline = story["webTitle"] as? String {
+                                    if let url = story["webUrl"] as? NSString {
+                                        //Note there is a property "format" that indicates type including thumbnail
+                                        var storyMedia = Array<NSString>()
+                                        if let media = story["multimedia"] as? NSArray {
+                                            for mediaData in media {
+                                                if let mediaUrl = mediaData["url"] as? NSString {
+                                                    storyMedia.append(mediaUrl) //Apparently inside of if let's they are unwrapped
+                                                }
+                                            }
+                                        }
+                                        var byline : String?
+                                        var publishedDate : NSString?
+                                        if let fields = story["fields"] as? NSDictionary {
+                                            byline = fields["byline"] as? String
+                                            publishedDate = fields["webPublicationDate"] as? NSString
+                                        }
+                                        //Get Tags
+                                        var storyTags = Array<NSString>()
+                                        
+                                        //Description tags
+                                        if let tags = story["tags"] as? NSArray {
+                                            for tagDetails in tags {
+                                                storyTags.append(tagDetails["webTitle"] as! NSString) //Cross fingers on this one
+                                            }
+                                        }
+                                        
+                                        //Add it all into our stories array
+                                        articlesGD.append(Article(headline: headline, publication: "The Guardian", byline: byline, publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
+                                    
+                                        
+                                    }
+                                }
+                                
+                            }
+                            apiArraysDictionary["GD"] = articlesGD
+                        }
+                        dispatch_async(dispatch_get_main_queue(), {completionHandler(self, nil)})
+                    }
+                    //Handle non-OK status types here
+                }
+            }
+        } else {
+            if let unwrappedError = jsonError {
+                dispatch_async(dispatch_get_main_queue(), {completionHandler(self, "\(unwrappedError)")})
+            }
+        }
+    }
+    
+    func usatJsonParser(jsonData: NSData, completionHandler: (ArticleMapper, String?) -> Void){
+        var jsonError: NSError?
+        
+        if let jsonResults = NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as? NSDictionary {
+            if let stories = jsonResults["stories"] as? NSArray {
+                for story in stories {
+                    if let headline = story["title"] as? String {
+                        if let url = story["link"] as? NSString {
+                            if let abstract = story["description"] as? NSString {
+                                
+                                //Note there is a property "format" that indicates type including thumbnail
+                                var storyMedia = Array<NSString>()
+                                if let media = story["multimedia"] as? NSArray {
+                                    for mediaData in media {
+                                        if let mediaUrl = mediaData["url"] as? NSString {
+                                            storyMedia.append(mediaUrl) //Apparently inside of if let's they are unwrapped
+                                        }
+                                    }
+                                }
+                                let publishedDate = story["published_date"] as? NSString
+                                //Get Tags
+                                //var storyTags = Array<NSString>()
+                                
+                                //Description tags
+                                var storyTags = split(headline) {$0 == " "}
+                                var tagSet = Set(storyTags)
+                                var nonTags = Set(["he","she","said","and","but","or","nor","the","to","is","a","an","in","had","has","when","where","what","how","there","then","this"])
+                                
+                                tagSet = tagSet.subtract(nonTags)
+                                storyTags = Array(tagSet)
+                                
+                                //Add it all into our stories array
+                                articlesUSAT.append(Article(headline: headline, publication: "USA Today", byline: "", publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
+                            }
+                            apiArraysDictionary["USAT"] = articlesUSAT
+                        }
+                    }
+                    
+                }
+            }
+            dispatch_async(dispatch_get_main_queue(), {completionHandler(self, nil)})
+            
+        } else {
+            if let unwrappedError = jsonError {
+                dispatch_async(dispatch_get_main_queue(), {completionHandler(self, "\(unwrappedError)")})
+            }
+        }
+    }
+
+    func filterAPI(fresh: Bool){
+        //Filter all the things.
     }
 }

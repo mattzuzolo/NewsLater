@@ -22,13 +22,37 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
             (articles, errorString) -> Void in
             if let unwrappedErrorString = errorString {
                 //Error, so popup an alert
-                self.showError("Could not load data from NYTimes", error: errorString!)
+                self.showError("Could not load data from New York Times", error: errorString!)
                 
             } else {
-                self.articleMapper.filteredArticles = self.articleMapper.articlesNYT
-                self.feedView.reloadData()
+                self.articleMapper.filteredArticles += self.articleMapper.articlesNYT
+                self.articleMapper.loadArticles("GD", completionHandler:{
+                    (articles, errorString) -> Void in
+                    if let unwrappedErrorString = errorString {
+                        //Error, so popup an alert
+                        self.showError("Could not load data from the Guardian", error: errorString!)
+                        
+                    } else {
+                        self.articleMapper.filteredArticles += self.articleMapper.articlesGD
+                        self.articleMapper.loadArticles("USAT", completionHandler:{
+                            (articles, errorString) -> Void in
+                            if let unwrappedErrorString = errorString {
+                                //Error, so popup an alert
+                                self.showError("Could not load data from USA Today", error: errorString!)
+                                
+                            } else {
+                                self.articleMapper.filteredArticles += self.articleMapper.articlesUSAT
+                                self.articleMapper.filterAPI(true) //bool value is if it's fresh or not.
+                                self.feedView.reloadData()
+                            }
+                        })
+                    }
+                })
+               
             }
         })
+        
+       
     }
     
     //Start Copy/Pasta from Homework:
@@ -43,7 +67,6 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        //Why does it need as! instead of as  ... look this up
         let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! UITableViewCell
         
         cell.textLabel?.text = articleMapper.filteredArticles[indexPath.row].headline!
