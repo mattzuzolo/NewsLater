@@ -49,7 +49,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
                                 
                             } else {
                                 //self.articleMapper.filteredArticles += self.articleMapper.articlesUSAT
-                                self.articleMapper.filterAPI(true, delegate: self.appDelegate) //bool value is if it's fresh or not.
+                                self.articleMapper.filterAPI(false, delegate: self.appDelegate) //bool value is if it's fresh or not.
                                 self.feedView.reloadData()
                             }
                         })

@@ -18,9 +18,9 @@ class Article: NSObject, NSCoding {
     var publishedDate: NSString?
     var url: NSString?
     var thumbnailUrl: NSString? //Points to the Thumbnail object
-    var tags: [NSString]?
+    var tags: Set<NSString>?
     
-    init(headline: String?, publication: String?, byline: String?, publishedDate: NSString?, url: NSString?, thumbnailUrl: NSString?, tags: [NSString]?){
+    init(headline: String?, publication: String?, byline: String?, publishedDate: NSString?, url: NSString?, thumbnailUrl: NSString?, tags: Set<NSString>){
         self.headline = headline
         self.publication = publication
         self.byline = byline
@@ -29,12 +29,7 @@ class Article: NSObject, NSCoding {
         self.thumbnailUrl = thumbnailUrl
         self.tags = tags        
     }
-    /*
-    required init?(_ map: Map) {
-        super.init()
-        mapping(map)
-    }
-    */
+
     required init(coder aDecoder: NSCoder) {
         super.init()
         self.headline = aDecoder.decodeObjectForKey("headline") as! String?
@@ -43,8 +38,7 @@ class Article: NSObject, NSCoding {
         self.publishedDate = aDecoder.decodeObjectForKey("publishedDate") as! NSString?
         self.url = aDecoder.decodeObjectForKey("url") as! NSString?
         self.thumbnailUrl = aDecoder.decodeObjectForKey("thumbnailUrl") as! NSString?
-        self.tags = aDecoder.decodeObjectForKey("tags") as! [NSString]?
-        
+        self.tags = aDecoder.decodeObjectForKey("tags") as? Set<NSString>        
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
@@ -57,33 +51,5 @@ class Article: NSObject, NSCoding {
         aCoder.encodeObject(self.tags, forKey: "tags")
 
     }
-    /*
-    
-    //Basic mapping function.
-    func mapping(map: Map) {
-        publication     <- map["publication"]
-        if publication != nil {
-            if(publication!.isEqual("New York Times")){
-                //Do all the NYT mapping
-            } else if(publication!.isEqual("Washington Post")){
-                //Do all the WP mapping
-            } else if(publication!.isEqual("USA Today")){
-                //Do all the USA Today mapping
-            }
-            //Do all the unified mapping.
-            headline        <- map["headline"]
-            byline          <- map["byline"]
-            publishedDate   <- (map["publishedDate"], DateTransform())
-            url             <- map["url"]
-            thumbnailUrl    <- map["thumbnailUrl"]
-            tags            <- map["tags"]
-        }
-    }
-    
-    
-    func loadFeed(){
-        
-    }*/
-    
 }
 

@@ -82,26 +82,26 @@ class ArticleMapper: NSObject{
                                                     }
                                                     
                                                     //Get Tags
-                                                    var storyTags = Array<NSString>()
+                                                    var storyTags = Set<NSString>()
                                                     
                                                     //Description tags
                                                     if let descTags = story["des_facet"] as? NSArray {
                                                         for desc in descTags {
-                                                            storyTags.append(desc as! NSString) //Cross fingers on this one
+                                                            storyTags.insert(desc as! NSString) //Cross fingers on this one
                                                         }
                                                     }
                                                     
                                                     //Organization tags
                                                     if let orgTags = story["org_facet"] as? NSArray {
                                                         for org in orgTags {
-                                                            storyTags.append(org as! NSString)
+                                                            storyTags.insert(org as! NSString)
                                                         }
                                                     }
                                                     
                                                     //Person tags
                                                     if let persTags = story["per_facet"] as? NSArray {
                                                         for per in persTags {
-                                                            storyTags.append(per as! NSString)
+                                                            storyTags.insert(per as! NSString)
                                                         }
                                                     }
                                                     
@@ -163,12 +163,12 @@ class ArticleMapper: NSObject{
                                             publishedDate = fields["webPublicationDate"] as? NSString
                                         }
                                         //Get Tags
-                                        var storyTags = Array<NSString>()
+                                        var storyTags = Set<NSString>()
                                         
                                         //Description tags
                                         if let tags = story["tags"] as? NSArray {
                                             for tagDetails in tags {
-                                                storyTags.append(tagDetails["webTitle"] as! NSString) //Cross fingers on this one
+                                                storyTags.insert(tagDetails["webTitle"] as! NSString) //Cross fingers on this one
                                             }
                                         }
                                         
@@ -223,12 +223,11 @@ class ArticleMapper: NSObject{
                                 var nonTags = Set(["he","she","said","and","but","or","nor","the","to","is","a","an","in","had","has","when","where","what","how","there","then","this"])
                                 
                                 tagSet = tagSet.subtract(nonTags)
-                                storyTags = Array(tagSet)
                                 
                                 //let thumbnailUrl = NSURL.fileURLWithPath("usatoday.png")
                                 
                                 //Add it all into our stories array
-                                articlesUSAT.insert(Article(headline: headline, publication: "USA Today", byline: "", publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
+                                articlesUSAT.insert(Article(headline: headline, publication: "USA Today", byline: "", publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: tagSet))
                             }
                             //apiArraysDictionary["USAT"] = articlesUSAT
                         }
@@ -259,13 +258,15 @@ class ArticleMapper: NSObject{
         articlesGD = articlesGD.subtract(readArticles)
         articlesUSAT = articlesUSAT.subtract(readArticles)
         
+        self.filteredArticles += Array(articlesNYT)
+        self.filteredArticles += Array(articlesGD)
+        self.filteredArticles += Array(articlesUSAT)
         //Compare article tags to determine if articles in different sets are too similar
         //For the time being we are placing a higher priority on NYT articles, then Guardian, then USAToday
-        //Rational: NYT provides a heavily curated list with the API we are using, the Guardian has a more focused hit
+        //Rational: NYT provides a heavily curated list with the API we are using, the Guardian has a more focused list
         //with actual tags provided, and finally the USAToday tags are derived and the API is archaic.
-        for articles in articlesNYT {
-            
-        }
-        
+        //for article in articlesNYT {
+        //    article.tags?.intersect()
+        //}
     }
 }
