@@ -71,7 +71,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
         cell.title?.text = articleMapper.filteredArticles[indexPath.row].headline!
         cell.subtitle?.text = articleMapper.filteredArticles[indexPath.row].publishedDate?.description
         configureCell(cell)
