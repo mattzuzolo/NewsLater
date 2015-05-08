@@ -75,14 +75,21 @@ class ArticleMapper: NSObject{
                                                 if let abstract = story["abstract"] as? NSString {
                                                     
                                                     //Note there is a property "format" that indicates type including thumbnail
-                                                    var storyMedia = Array<NSString>()
+                                                    var thumbnailUrlString : String?
                                                     if let media = story["multimedia"] as? NSArray {
                                                         for mediaData in media {
-                                                            if let mediaUrl = mediaData["url"] as? NSString {
-                                                                storyMedia.append(mediaUrl)
+                                                            let mediaType = (mediaData["format"] as! String).lowercaseString
+                                                            if(mediaType.rangeOfString("thumb") != nil) {
+                                                                thumbnailUrlString = (mediaData["url"] as? String)
+                                                                break
                                                             }
                                                         }
                                                     }
+                                                    
+                                                    var thumbnailUrl : NSURL?
+                                                    if(thumbnailUrlString != nil){
+                                                        thumbnailUrl = NSURL(string: thumbnailUrlString!)
+                                                    }  //Possibly easier to point to no thumbnail graphic here.
                                                     
                                                     //Get Tags
                                                     var storyTags = Set<String>()
@@ -129,7 +136,7 @@ class ArticleMapper: NSObject{
                                                     storyTags = storyTags.subtract(nonTags)
                                                     
                                                     //Add it all into our stories array
-                                                    articlesNYT.insert(Article(headline: headline, publication: "New York Times", byline: byline, publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
+                                                    articlesNYT.insert(Article(headline: headline, publication: "New York Times", byline: byline, publishedDate: publishedDate, url: url, thumbnailUrl: thumbnailUrl, tags: storyTags))
                                                 }
                                                 //apiArraysDictionary["NYT"] = articlesNYT
                                             }
@@ -219,23 +226,23 @@ class ArticleMapper: NSObject{
                 for story in stories {
                     if let headline = story["title"] as? String {
                         if let url = story["link"] as? NSString {
-                            if let abstract = story["description"] as? NSString {
+                            let abstract = story["description"] as? NSString
                                 
-                                let publishedDate = story["published_date"] as? NSString
+                            let publishedDate = story["pubDate"] as? NSString
                                 
-                                //Description tags
-                                //Deriving tags from the headline
-                                let lowerHeadline = headline.lowercaseString
-                                var storyTags = split(lowerHeadline) {$0 == " "}
-                                var tagSet = Set(storyTags)
-                                
-                                tagSet = tagSet.subtract(nonTags)
-                                
-                                let thumbnailUrl = NSURL.fileURLWithPath("usatoday.png")
-                                
-                                //Add it all into our stories array
-                                articlesUSAT.insert(Article(headline: headline, publication: "USA Today", byline: "", publishedDate: publishedDate, url: url, thumbnailUrl: thumbnailUrl, tags: tagSet))
-                            }
+                            //Description tags
+                            //Deriving tags from the headline
+                            let lowerHeadline = headline.lowercaseString
+                            var storyTags = split(lowerHeadline) {$0 == " "}
+                            var tagSet = Set(storyTags)
+                            
+                            tagSet = tagSet.subtract(nonTags)
+                            
+                            let thumbnailUrl = NSURL.fileURLWithPath("usatoday.png")
+                            
+                            //Add it all into our stories array
+                            articlesUSAT.insert(Article(headline: headline, publication: "USA Today", byline: "", publishedDate: publishedDate, url: url, thumbnailUrl: thumbnailUrl, tags: tagSet))
+                        
                             //apiArraysDictionary["USAT"] = articlesUSAT
                         }
                     }
