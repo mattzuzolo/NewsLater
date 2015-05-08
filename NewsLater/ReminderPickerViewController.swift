@@ -16,9 +16,6 @@ class ReminderPickerViewController: UIViewController, UIPickerViewDataSource, UI
     let hours = ["00",  "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
     var selected : String = "";
     
-    let languageData = ["Bosnian", "Catalan", "Croatian", "Danish", "English", "French", "German", "Haitian", "Italian", "Latvian", "Spanish", "Turkish", "Welsh"]
-    let translateData = ["Zdravo", "Hola", "Bok", "Hej", "Hello", "Bonjour", "Hallo", "Alo", "Ciao", "Sveiki", "Hola", "Merhaba", "Helo"]
-    
     let reminderPickerStartIndex = 0
     
     override func viewDidLoad() {
