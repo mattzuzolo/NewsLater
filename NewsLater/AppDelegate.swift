@@ -16,14 +16,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var readArticles:[Article]? = Array<Article>()
     private var recentlyRead:[Article]? = Array<Article>()
     
-    let articlesFile = NSBundle.mainBundle().pathForResource("read_articles", ofType: "txt")
-    let recentlyReadFile = NSBundle.mainBundle().pathForResource("recently_read", ofType: "txt")
-
+    var articlesFile = ""
+    var recentlyReadFile = ""
+    let fileMgr = NSFileManager.defaultManager()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        readArticles = loadArticles(articlesFile!)
-        recentlyRead = loadArticles(recentlyReadFile!)
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        println(dirPaths[0])
+        
+        articlesFile = (dirPaths[0] as! String) + "/read_articles.txt"
+        recentlyReadFile = (dirPaths[0] as! String) + "/recently_read.txt"
+        
+        readArticles = loadArticles(articlesFile)
+        recentlyRead = loadArticles(recentlyReadFile)
         return true
     
     }
@@ -80,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func addArticle(newArticle: Article){
         readArticles?.append(newArticle)
         recentlyRead?.append(newArticle)
-
+        println(readArticles!.count)
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -103,8 +109,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        saveArticles(readArticles, file: articlesFile!)
-        saveArticles(recentlyRead, file: recentlyReadFile!)
+        saveArticles(readArticles, file: articlesFile)
+        saveArticles(recentlyRead, file: recentlyReadFile)
         
     }
 
