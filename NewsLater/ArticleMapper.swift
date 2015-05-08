@@ -15,6 +15,9 @@ class ArticleMapper: NSObject{
     var articlesUSAT = Set<Article>()
     var filteredArticles = Array<Article>()
     
+    //Set of words we don't want made into tags
+    let nonTags = Set(["he","she","said","and","but","or","nor","the","to","is","a","an","at","of","in","had","has","when","where","what","with","how","there","then","this", "for", "after", "before", "however", "by"])
+    
     //Dictionary type to help facilitate a more generic load method
     let urlDictionary = ["NYT": "https://api.nytimes.com/svc/topstories/v1/home.json?api-key=3caa4c3969858fadeaa4bbe5a3529235:13:71572887", "GD": "http://content.guardianapis.com/search?api-key=p7x4zprsbrgjpwx5nwuhqzkz&show-fields=thumbnail,byline&show-tags=all&days=3", "USAT": "http://api.usatoday.com/open/articles/mobile/topnews?encoding=json&api_key=qjc2b9y9ddpaj9buv9ksy4ju&days=3"]
     
@@ -76,34 +79,54 @@ class ArticleMapper: NSObject{
                                                     if let media = story["multimedia"] as? NSArray {
                                                         for mediaData in media {
                                                             if let mediaUrl = mediaData["url"] as? NSString {
-                                                                storyMedia.append(mediaUrl) //Apparently inside of if let's they are unwrapped
+                                                                storyMedia.append(mediaUrl)
                                                             }
                                                         }
                                                     }
                                                     
                                                     //Get Tags
-                                                    var storyTags = Set<NSString>()
+                                                    var storyTags = Set<String>()
                                                     
                                                     //Description tags
                                                     if let descTags = story["des_facet"] as? NSArray {
                                                         for desc in descTags {
-                                                            storyTags.insert(desc as! NSString) //Cross fingers on this one
+                                                            var tags = (desc as! NSString).lowercaseString
+                                                            tags = tags.stringByTrimmingCharactersInSet(NSCharacterSet.punctuationCharacterSet())
+                                                            tags = tags.stringByTrimmingCharactersInSet(NSCharacterSet.symbolCharacterSet())
+                                                            let tagSplit = split(tags) {$0 == " "}
+                                                            for tag in tagSplit{
+                                                                storyTags.insert(tag) //Cross fingers on this one
+                                                            }
                                                         }
                                                     }
                                                     
                                                     //Organization tags
                                                     if let orgTags = story["org_facet"] as? NSArray {
                                                         for org in orgTags {
-                                                            storyTags.insert(org as! NSString)
+                                                            var tags = (org as! NSString).lowercaseString
+                                                            tags = tags.stringByTrimmingCharactersInSet(NSCharacterSet.punctuationCharacterSet())
+                                                            tags = tags.stringByTrimmingCharactersInSet(NSCharacterSet.symbolCharacterSet())
+                                                            let tagSplit = split(tags) {$0 == " "}
+                                                            for tag in tagSplit{
+                                                                storyTags.insert(tag) //Cross fingers on this one
+                                                            }
                                                         }
                                                     }
                                                     
                                                     //Person tags
                                                     if let persTags = story["per_facet"] as? NSArray {
                                                         for per in persTags {
-                                                            storyTags.insert(per as! NSString)
+                                                            var tags = (per as! NSString).lowercaseString
+                                                            tags = tags.stringByTrimmingCharactersInSet(NSCharacterSet.punctuationCharacterSet())
+                                                            tags = tags.stringByTrimmingCharactersInSet(NSCharacterSet.symbolCharacterSet())
+                                                            let tagSplit = split(tags) {$0 == " "}
+                                                            for tag in tagSplit{
+                                                                storyTags.insert(tag) //Cross fingers on this one
+                                                            }
                                                         }
                                                     }
+                                                    
+                                                    storyTags = storyTags.subtract(nonTags)
                                                     
                                                     //Add it all into our stories array
                                                     articlesNYT.insert(Article(headline: headline, publication: "New York Times", byline: byline, publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
@@ -133,13 +156,6 @@ class ArticleMapper: NSObject{
         
         if let jsonResults = NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as? NSDictionary {
             if let jsonResult = jsonResults["response"] as? NSDictionary {
-            //if let jsonResult = jsonResponse?.fi {
-            //if (jsonResults.count > 0) {
-                
-                //for jsonResult in jsonResponse! {
-                //    let stattest = jsonResult["status"]
-                //}
-                //let jsonResponse = jsonResults["response"] as? NSDictionary
                 if let status = jsonResult["status"] as? NSString {
                     if(status == "ok") {
                         let num_results = jsonResult["num_results"] as? Int
@@ -147,35 +163,36 @@ class ArticleMapper: NSObject{
                             for story in results {
                                 if let headline = story["webTitle"] as? String {
                                     if let url = story["webUrl"] as? NSString {
-                                        //Note there is a property "format" that indicates type including thumbnail
-                                        var storyMedia = Array<NSString>()
-                                        if let media = story["multimedia"] as? NSArray {
-                                            for mediaData in media {
-                                                if let mediaUrl = mediaData["url"] as? NSString {
-                                                    storyMedia.append(mediaUrl) //Apparently inside of if let's they are unwrapped
-                                                }
-                                            }
-                                        }
                                         var byline : String?
-                                        var publishedDate : NSString?
+                                        let publishedDate = story["webPublicationDate"] as? NSString
+                                        var thumbnailUrlString : String?
                                         if let fields = story["fields"] as? NSDictionary {
                                             byline = fields["byline"] as? String
-                                            publishedDate = fields["webPublicationDate"] as? NSString
+                                            thumbnailUrlString = fields["thumbnail"] as? String
                                         }
+                                        
+                                        var thumbnailUrl : NSURL?
+                                        if(thumbnailUrlString != nil){
+                                            thumbnailUrl = NSURL(string: thumbnailUrlString!)
+                                        }  //Possibly easier to point to no thumbnail graphic here.
+                                        
                                         //Get Tags
-                                        var storyTags = Set<NSString>()
+                                        var storyTags = Set<String>()
                                         
                                         //Description tags
                                         if let tags = story["tags"] as? NSArray {
                                             for tagDetails in tags {
-                                                storyTags.insert(tagDetails["webTitle"] as! NSString) //Cross fingers on this one
+                                                var tagSplit = split((tagDetails["webTitle"] as! NSString).lowercaseString.stringByTrimmingCharactersInSet(NSCharacterSet.punctuationCharacterSet()).stringByTrimmingCharactersInSet(NSCharacterSet.symbolCharacterSet())) {$0 == " "}
+                                                for tag in tagSplit {
+                                                    storyTags.insert(tag) //Cross fingers on this one
+                                                }
                                             }
                                         }
                                         
-                                        //Add it all into our stories array
-                                        articlesGD.insert(Article(headline: headline, publication: "The Guardian", byline: byline, publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: storyTags))
-                                    
+                                        storyTags = storyTags.subtract(nonTags)
                                         
+                                        //Add it all into our stories array
+                                        articlesGD.insert(Article(headline: headline, publication: "The Guardian", byline: byline, publishedDate: publishedDate, url: url, thumbnailUrl: thumbnailUrl, tags: storyTags))
                                     }
                                 }
                                 
@@ -204,30 +221,20 @@ class ArticleMapper: NSObject{
                         if let url = story["link"] as? NSString {
                             if let abstract = story["description"] as? NSString {
                                 
-                                //Note there is a property "format" that indicates type including thumbnail
-                                var storyMedia = Array<NSString>()
-                                if let media = story["multimedia"] as? NSArray {
-                                    for mediaData in media {
-                                        if let mediaUrl = mediaData["url"] as? NSString {
-                                            storyMedia.append(mediaUrl) //Apparently inside of if let's they are unwrapped
-                                        }
-                                    }
-                                }
                                 let publishedDate = story["published_date"] as? NSString
-                                //Get Tags
-                                //var storyTags = Array<NSString>()
                                 
                                 //Description tags
-                                var storyTags = split(headline) {$0 == " "}
+                                //Deriving tags from the headline
+                                let lowerHeadline = headline.lowercaseString
+                                var storyTags = split(lowerHeadline) {$0 == " "}
                                 var tagSet = Set(storyTags)
-                                var nonTags = Set(["he","she","said","and","but","or","nor","the","to","is","a","an","in","had","has","when","where","what","how","there","then","this"])
                                 
                                 tagSet = tagSet.subtract(nonTags)
                                 
-                                //let thumbnailUrl = NSURL.fileURLWithPath("usatoday.png")
+                                let thumbnailUrl = NSURL.fileURLWithPath("usatoday.png")
                                 
                                 //Add it all into our stories array
-                                articlesUSAT.insert(Article(headline: headline, publication: "USA Today", byline: "", publishedDate: publishedDate, url: url, thumbnailUrl: nil, tags: tagSet))
+                                articlesUSAT.insert(Article(headline: headline, publication: "USA Today", byline: "", publishedDate: publishedDate, url: url, thumbnailUrl: thumbnailUrl, tags: tagSet))
                             }
                             //apiArraysDictionary["USAT"] = articlesUSAT
                         }
@@ -258,15 +265,60 @@ class ArticleMapper: NSObject{
         articlesGD = articlesGD.subtract(readArticles)
         articlesUSAT = articlesUSAT.subtract(readArticles)
         
-        self.filteredArticles += Array(articlesNYT)
-        self.filteredArticles += Array(articlesGD)
-        self.filteredArticles += Array(articlesUSAT)
         //Compare article tags to determine if articles in different sets are too similar
         //For the time being we are placing a higher priority on NYT articles, then Guardian, then USAToday
         //Rational: NYT provides a heavily curated list with the API we are using, the Guardian has a more focused list
         //with actual tags provided, and finally the USAToday tags are derived and the API is archaic.
-        //for article in articlesNYT {
-        //    article.tags?.intersect()
-        //}
+        for NYTArticle in articlesNYT {
+            var removed = false
+            for GDArticle in articlesGD {
+                let hits = NYTArticle.tags?.intersect(GDArticle.tags!)
+                if(hits?.count >= 2){
+                    if(arc4random_uniform(2) == 1){
+                        articlesGD.remove(GDArticle)
+                    } else{
+                        articlesNYT.remove(NYTArticle)
+                        removed = true
+                        break //no need to continue search GD as we assume there are no dupes internally to an API
+                    }
+                }
+                
+            }
+            
+            if(removed){
+                continue //no need to search USAT since GD will do that after NYT
+            }
+            
+            for USATArticle in articlesUSAT {
+                let hits = NYTArticle.tags?.intersect(USATArticle.tags!)
+                if(hits?.count >= 2){
+                    if(arc4random_uniform(2) == 1){
+                        articlesGD.remove(USATArticle)
+                    } else{
+                        articlesNYT.remove(NYTArticle)
+                        removed = true
+                        break //no need to continue search USAT as we assume there are no dupes internally to an API
+                    }
+                }
+            }
+        }
+        
+        for GDArticle in articlesGD {
+            for USATArticle in articlesUSAT {
+                let hits = GDArticle.tags?.intersect(USATArticle.tags!)
+                if(hits?.count >= 2){
+                    if(arc4random_uniform(2) == 1){
+                        articlesGD.remove(USATArticle)
+                    } else{
+                        articlesNYT.remove(GDArticle)
+                        break //no need to continue search USAT as we assume there are no dupes internally to an API
+                    }
+                }
+            }
+        }
+        
+        self.filteredArticles += Array(articlesNYT)
+        self.filteredArticles += Array(articlesGD)
+        self.filteredArticles += Array(articlesUSAT)
     }
 }
