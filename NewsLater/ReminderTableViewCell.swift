@@ -1,17 +1,14 @@
 //
-//  ArticleTableViewCell.swift
+//  ReminderTableViewCell.swift
 //  NewsLater
 //
-//  Created by Mike on 4/30/15.
+//  Created by Grace on 5/9/15.
 //  Copyright (c) 2015 Matt Zuzolo. All rights reserved.
 //
 
 import UIKit
 
-class ArticleTableViewCell: UITableViewCell {
-    @IBOutlet weak var thumbnail: UIImageView!
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var subtitle: UILabel!
+class ReminderTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
