@@ -91,7 +91,6 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         }
         
         return cell2!
-        
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
