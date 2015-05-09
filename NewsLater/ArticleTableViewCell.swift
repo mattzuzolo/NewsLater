@@ -23,11 +23,7 @@ class ArticleTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    func configureCell(){
         
-    }
-    
     func configureCell(rowHeight: CGFloat, frameWidth: CGFloat){
         let width = frameWidth
         let height = rowHeight

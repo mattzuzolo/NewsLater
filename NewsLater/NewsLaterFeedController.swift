@@ -101,6 +101,21 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
             let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
             cell.title?.text = currentArticles[indexPath.row].headline!
             cell.subtitle?.text = currentArticles[indexPath.row].publishedDate?.description
+
+            if (currentArticles[indexPath.row].thumbnailUrl == nil){
+                cell.thumbnail.image = UIImage(named: "usatoday.png")
+            }
+            else{
+                let imageData = NSData(contentsOfURL: currentArticles[indexPath.row].thumbnailUrl!)
+                if (imageData == nil){
+                    cell.thumbnail.image = UIImage(named: "usatoday.png")
+                }
+                else{
+                    let image = UIImage(data: imageData!)
+                    cell.thumbnail.image = image!
+                }
+               
+            }
             cell.configureCell(feedView.rowHeight, frameWidth: feedView.frame.width)
             return cell
         }else{
