@@ -75,11 +75,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return readArticles
     }
     
-    func getReadArticlesSet() -> Set<Article>{
+    func getReadArticlesHeadlines() -> Set<String>{
         if(readArticles != nil){
-            return Set(readArticles!)
+            var headlines = Set<String>()
+            for article in readArticles!{
+                headlines.insert(article.headline!)
+            }
+            return headlines
         } else {
-            return Set<Article>()
+            return Set<String>()
         }
     }
     

@@ -261,16 +261,44 @@ class ArticleMapper: NSObject{
     func filterAPI(fresh: Bool, delegate: AppDelegate){
         //Filter all the things.
         var filteredSet = Set<Article>()
-        let readArticles = delegate.getReadArticlesSet()
+        
         
         if(fresh){
+            //TODO Make sure this is the right way to do this (aka Ask Mike)...
+            //Save the existing files, "fresh" assumes that all remaining files have been depleted/unwanted.
+            delegate.saveArticles(self.filteredArticles, file: delegate.articlesFile)
            self.filteredArticles = Array<Article>()
         }
         
+        //TEST just testing to make sure that articles get filtered out appropriately... Hint: They do
+        //delegate.saveArticles(Array(self.articlesNYT), file: delegate.articlesFile)
+        
+        let readHeadlines = delegate.getReadArticlesHeadlines()
+        
         //Filter out any read articles
-        articlesNYT = articlesNYT.subtract(readArticles)
-        articlesGD = articlesGD.subtract(readArticles)
-        articlesUSAT = articlesUSAT.subtract(readArticles)
+        //articlesNYT = articlesNYT.subtract(readArticles)
+        //articlesGD = articlesGD.subtract(readArticles)
+        //articlesUSAT = articlesUSAT.subtract(readArticles)
+        //Apperently, .Net has spoiled me.  Set's use type Hashable in Swift, so looking into that later
+        //Switching to the hard way to get the job done:
+        for nytArticle in articlesNYT {
+            if readHeadlines.contains(nytArticle.headline!) {
+                articlesNYT.remove(nytArticle)
+            } // Swift needs an Elvis operator ?:
+        }
+        
+        for gdArticle in articlesGD {
+            if readHeadlines.contains(gdArticle.headline!) {
+                articlesNYT.remove(gdArticle)
+            } // Swift needs an Elvis operator ?:
+        }
+        
+        for usatArticle in articlesUSAT {
+            if readHeadlines.contains(usatArticle.headline!) {
+                articlesNYT.remove(usatArticle)
+            } // Swift needs an Elvis operator ?:
+        }
+        
         
         //Compare article tags to determine if articles in different sets are too similar
         //For the time being we are placing a higher priority on NYT articles, then Guardian, then USAToday
