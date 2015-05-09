@@ -17,6 +17,7 @@ class ArticleViewController: UIViewController, UIWebViewDelegate {
 
     
     var article : Article?
+    //var url : NSURL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,10 +40,8 @@ class ArticleViewController: UIViewController, UIWebViewDelegate {
     
     
     @IBAction func share(sender: AnyObject) {
-        let text = "Sharing Google website for testing!"
-        
-        //will take in aritcle url instead of google.com
-        let url : NSURL = NSURL(fileURLWithPath: "http://www.google.com/")!
+        let text = "\"" + article!.headline! + "\"" + " share from News Later "
+        let url : NSURL = NSURL(string: article!.url as! String)!
         
         //create an instance of UIActivityViewController
         let activityViewController : UIActivityViewController = UIActivityViewController(
