@@ -26,7 +26,6 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "saveData", name: "kSaveSwitchesStatesNotification", object: nil);
         
         //loads previously saved time interval to array
         if(preDay == "0" && preHour == "00"){
@@ -45,7 +44,7 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 2 //2 section of cells, aka 2 types of cells
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,11 +56,10 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         var cellIdentifier: NSString?
         var cell:UITableViewCell?
         
-        if(indexPath.section == 0){
+        if(indexPath.section == 0){ //cell content never change
             cellIdentifier = "staticCellType"
             cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier as! String, forIndexPath: indexPath) as? UITableViewCell
             cell!.textLabel?.text = "Remind me to come back"
@@ -73,22 +71,18 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
             reminderSwitch.addTarget(self, action: "switchValueDidChange:", forControlEvents: .ValueChanged);
             self.view.addSubview(reminderSwitch);
             
-        }else if(indexPath.section == 1){
-            //if switch is off, cell should not be clickable
+        }else if(indexPath.section == 1){ //cell content changes base on data
+            cellIdentifier = "dynamicCellType"
+            cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier as! String, forIndexPath: indexPath) as? UITableViewCell
+            cell!.textLabel?.text = "Come back in"
+            cell!.detailTextLabel?.text = reminders[indexPath.row]
+            
+            //if switch is off, cell should grayed out and not clickable
             if(switchStatus == false){
-                cellIdentifier = "dynamicCellType"
-                cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier as! String, forIndexPath: indexPath) as? UITableViewCell
-                cell!.textLabel?.text = "Come back in"
-                cell!.detailTextLabel?.text = reminders[indexPath.row]
                 cell!.textLabel?.textColor = UIColor.grayColor()
                 cell!.detailTextLabel?.textColor = UIColor.grayColor()
                 cell!.userInteractionEnabled = false
-                
-            }else if(switchStatus == true){
-                cellIdentifier = "dynamicCellType"
-                cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier as! String, forIndexPath: indexPath) as? UITableViewCell
-                cell!.textLabel?.text = "Come back in"
-                cell!.detailTextLabel?.text = reminders[indexPath.row]
+            }else{
                 cell!.textLabel?.textColor = UIColor.blackColor()
                 cell!.detailTextLabel?.textColor = UIColor.redColor()
                 cell!.userInteractionEnabled = true
@@ -98,17 +92,17 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        //only cells in section 1 should perform segue
         if (indexPath.section != 0) {
             performSegueWithIdentifier("toPicker", sender: self)
         }
     }
     
-    func switchValueDidChange(sender:UISwitch!)
-    {
+    func switchValueDidChange(sender:UISwitch!){
         if (sender.on == true){
             switchStatus = true
             setDone()
-            reminderTable.reloadData()
+            reminderTable.reloadData() //when reload the table view, cellForRowAtIndexPath is called again
         }
         else{
             switchStatus = false
@@ -138,6 +132,7 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
             if(setReminder == true){
                 doneBut.enabled = true
             }else{
+                //disable done button if no reminder time interval is set
                 doneBut.enabled = false
             }
         }else{
@@ -145,18 +140,16 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    func saveData(){
+    func saveData(){ //save settings
         var defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        
         defaults.setObject(newDay, forKey: "day")
         defaults.setObject(newHour, forKey: "hour")
         defaults.setBool(switchStatus, forKey: "switchStat")
         defaults.setBool(setReminder, forKey: "reminderStat")
         defaults.synchronize()
-        
     }
     
-    func loadData(){
+    func loadData(){ //load settings
         var defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
         
         if let dayIsNotNil = defaults.objectForKey("day") as? String {
@@ -174,7 +167,6 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func sendNotification(day: String, hour: String) {
-        
         var d: Double = (day as NSString).doubleValue
         var h: Double = (hour as NSString).doubleValue
         //convert reminder time interval to seconds
@@ -189,6 +181,7 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
         localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
         
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        
     }
     
     func removeNotification(){
@@ -196,26 +189,7 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     @IBAction func setReminder(sender: AnyObject) {
-        if(switchStatus == true){
-            if(setReminder == true){
-                removeNotification()
-                //if no new reminder time is set, set notification to previously saved time
-                if(newDay == nil || newHour == nil){
-                    sendNotification(preDay, hour: preHour)
-                }else{
-                    sendNotification(newDay!, hour: newHour!)
-                }
-            }
-            //save status
-            saveData()
-            //unwind segue
-            performSegueWithIdentifier("returnToFeed", sender: self)
-            
-        }else{
-            removeNotification()
-            saveData()
-            performSegueWithIdentifier("returnToFeed", sender: self)
-        }
+        performSegueWithIdentifier("saveToFeed", sender: self)
     }
     
     @IBAction func returnToReminderList(segue: UIStoryboardSegue) {
@@ -225,6 +199,7 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //pass start index data to picker
         if (segue.identifier == "toPicker") {
             var destinationViewController = segue.destinationViewController as! ReminderPickerViewController
             if(newDay == nil && newHour == nil){
@@ -233,6 +208,25 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
             }else{
                 destinationViewController.preDay = newDay
                 destinationViewController.preHour = newHour
+            }
+        }
+        
+        //saves setting states and schedule/remove local notification
+        if (segue.identifier == "saveToFeed") {
+            if(switchStatus == true){
+                if(setReminder == true){
+                    removeNotification()
+                    //if no new reminder time is set, set notification to previously saved time
+                    if(newDay == nil || newHour == nil){
+                        sendNotification(preDay, hour: preHour)
+                    }else{
+                        sendNotification(newDay!, hour: newHour!)
+                    }
+                }
+                saveData()
+            }else{
+                removeNotification()
+                saveData()
             }
         }
         

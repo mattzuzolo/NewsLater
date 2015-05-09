@@ -15,6 +15,11 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     @IBOutlet weak var feedView: UITableView!
+    var setReminder: Bool?
+    var switchStatus: Bool?
+    var preDay: String?
+    var preHour: String?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,8 +90,13 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
             return cell
         
         }else{
+            //loadData()
             cell2 = tableView.dequeueReusableCellWithIdentifier("setting_cell", forIndexPath: indexPath) as? UITableViewCell
-            cell2!.textLabel?.text = "Come back in X days"
+            //if(switchStatus! == true && setReminder! == true){
+                cell2!.textLabel?.text = "Come back in X days"
+            //}else{
+            //    cell2!.textLabel?.text = "Set Reminder"
+            //}
             return cell2!
         }
         
@@ -107,6 +117,9 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         
     }
     
+    @IBAction func saveToFeed(segue: UIStoryboardSegue) {
+        
+    }
     
     //Error alert example from http://stackoverflow.com/questions/29001629/issues-with-displaying-alerts-in-swift-after-clicking-ok-it-unwinds-segue
     func showError(title: String, error: String){

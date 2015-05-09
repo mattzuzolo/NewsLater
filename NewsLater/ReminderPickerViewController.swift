@@ -43,7 +43,7 @@ class ReminderPickerViewController: UIViewController, UIPickerViewDataSource, UI
     }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 2
+        return 2 //2 columns of data
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -67,12 +67,14 @@ class ReminderPickerViewController: UIViewController, UIPickerViewDataSource, UI
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if(component == 0){
             selectedDay = "\(days[row])"
+            //if user select one of the titles disable save button
             if(selectedDay == "Days"){
                 save.enabled = false
             }else{
                 save.enabled = true
             }
         }else{
+            //if user select one of the titles disable save button
             selectedHour = "\(hours[row])"
             if(selectedHour == "Hours"){
                 save.enabled = false
@@ -94,6 +96,7 @@ class ReminderPickerViewController: UIViewController, UIPickerViewDataSource, UI
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "saveToReminderList") {
             var destinationViewController = segue.destinationViewController as! RemindersViewController
+            //if user selected 0 days and 00 hours, use the last notification time interval
             if(selectedDay == "0" && selectedHour == "00"){
                 destinationViewController.setString(preDay!, hour: preHour!)
             }else{
