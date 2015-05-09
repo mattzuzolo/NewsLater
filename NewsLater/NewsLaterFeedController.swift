@@ -47,8 +47,26 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         if(indexPath.section == 0){
             let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
             cell.title?.text = currentArticles[indexPath.row].headline!
+            
+            //let date = dateFormatter.dateFromString(currentArticles[indexPath.row].publishedDate!.description)
+            //println(date)
             cell.subtitle?.text = currentArticles[indexPath.row].publishedDate?.description
-            configureCell(cell)
+
+            if (currentArticles[indexPath.row].thumbnailUrl == nil){
+                cell.thumbnail.image = UIImage(named: "BlankThumbnail")
+            }
+            else{
+                let imageData = NSData(contentsOfURL: currentArticles[indexPath.row].thumbnailUrl!)
+                if (imageData == nil){
+                    cell.thumbnail.image = UIImage(named: "BlankThumbnail")
+                }
+                else{
+                    let image = UIImage(data: imageData!)
+                    cell.thumbnail.image = image!
+                }
+               
+            }
+            cell.configureCell(feedView.rowHeight, frameWidth: feedView.frame.width)
             return cell
         }else{
             var cell2 = tableView.dequeueReusableCellWithIdentifier("setting_cell", forIndexPath: indexPath) as! ReminderTableViewCell
@@ -61,7 +79,8 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if(indexPath.section == 0){
 			if editingStyle == UITableViewCellEditingStyle.Delete {
-				appDelegate.addArticle(currentArticles[indexPath.row])
+				appDelegate.addRecentlyReadArticle(currentArticles[indexPath.row])
+                appDelegate.addReadArticles(currentArticles[indexPath.row])
 				currentArticles.removeAtIndex(indexPath.row)
 				tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
 				if(articleMapper.filteredArticles.count > 0){
@@ -77,8 +96,10 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if (indexPath.section != 1) {
-            selectedArticle = currentArticles[indexPath.row]
-            appDelegate.addArticle(selectedArticle!)
+
+            selectedArticle = articleMapper.filteredArticles[indexPath.row]
+            appDelegate.addReadArticles(selectedArticle!)
+            appDelegate.addRecentlyReadArticle(selectedArticle!)
             performSegueWithIdentifier("toArticle", sender: self)
         }else{
             performSegueWithIdentifier("toReminder", sender: self)

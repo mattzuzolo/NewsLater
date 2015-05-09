@@ -122,6 +122,7 @@
 				53DC733A1AE09B0E000C78B7 /* ArticleMapper.swift */,
 				27756E2C1AF2A4B30045B004 /* ArticleTableViewCell.swift */,
 				564D77801AFEA65C0015BFAB /* ReminderTableViewCell.swift */,
+
 				53D60C7E1AFBCB5F000B9AE2 /* usatoday.png */,
 			);
 			path = NewsLater;

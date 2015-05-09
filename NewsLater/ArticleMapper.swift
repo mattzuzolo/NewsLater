@@ -162,6 +162,7 @@ class ArticleMapper: NSObject{
         var jsonError: NSError?
         
         if let jsonResults = NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers, error: &jsonError) as? NSDictionary {
+
             if let jsonResult = jsonResults["response"] as? NSDictionary {
                 if let status = jsonResult["status"] as? NSString {
                     if(status == "ok") {

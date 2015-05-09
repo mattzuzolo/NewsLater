@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        println(dirPaths[0])
         
         articlesFile = (dirPaths[0] as! String) + "/read_articles.txt"
         recentlyReadFile = (dirPaths[0] as! String) + "/recently_read.txt"
@@ -93,10 +92,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func addArticle(newArticle: Article){
-        readArticles?.append(newArticle)
+    func addRecentlyReadArticle(newArticle: Article){
+        for article in recentlyRead!{
+            if article.headline! == newArticle.headline{
+                return
+            }
+        }
         recentlyRead?.append(newArticle)
-        println(readArticles!.count)
+        
+        if (recentlyRead?.count > 10){
+            recentlyRead!.removeAtIndex(0)
+        }
+        saveArticles(recentlyRead, file: recentlyReadFile)
+        println(recentlyRead!.count)
+    }
+    
+    func addReadArticles(newArticle: Article){
+        readArticles?.append(newArticle)
     }
     
     func applicationWillResignActive(application: UIApplication) {
