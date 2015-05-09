@@ -99,18 +99,19 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
             configureCell(cell)
             return cell
         }else{
-            var cell2:UITableViewCell?
-            cell2 = tableView.dequeueReusableCellWithIdentifier("setting_cell", forIndexPath: indexPath) as? UITableViewCell
-            cell2!.textLabel?.text = "Remind me to come back!"
-            cell2!.textLabel?.textColor = UIColor.redColor()
-            return cell2!
+            var cell2 = tableView.dequeueReusableCellWithIdentifier("setting_cell", forIndexPath: indexPath) as! ReminderTableViewCell
+            cell2.title?.text = "Remind me to come back!"
+            cell2.title?.textColor = UIColor.redColor()
+            return cell2
         }
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == UITableViewCellEditingStyle.Delete {
-            currentArticles.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath){
+        if(indexPath.section == 0){
+            if editingStyle == UITableViewCellEditingStyle.Delete {
+                currentArticles.removeAtIndex(indexPath.row)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            }
         }
     }
     
