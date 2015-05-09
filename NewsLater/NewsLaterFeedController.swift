@@ -69,7 +69,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
             cell.configureCell(feedView.rowHeight, frameWidth: feedView.frame.width)
             return cell
         }else{
-            var cell2 = tableView.dequeueReusableCellWithIdentifier("setting_cell", forIndexPath: indexPath) as! ReminderTableViewCell
+            var cell2 = tableView.dequeueReusableCellWithIdentifier("setting_cell", forIndexPath: indexPath) as!  ReminderTableViewCell
             cell2.title?.text = "Remind me to come back!"
             cell2.title?.textColor = UIColor.redColor()
             return cell2
