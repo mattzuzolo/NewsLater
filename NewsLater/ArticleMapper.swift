@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import ObjectMapper
+//import ObjectMapper
 
 class ArticleMapper: NSObject{
     var articlesNYT = Set<Article>()

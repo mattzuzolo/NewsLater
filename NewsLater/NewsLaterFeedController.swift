@@ -63,31 +63,51 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return articleMapper.filteredArticles.count
+        if(section == 0){
+            return articleMapper.filteredArticles.count
+        }else{
+            return 1
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell2:UITableViewCell?
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
-        cell.title?.text = articleMapper.filteredArticles[indexPath.row].headline!
-        cell.subtitle?.text = articleMapper.filteredArticles[indexPath.row].publishedDate?.description
-        configureCell(cell)
-        return cell
+        if(indexPath.section == 0){
+            let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
+            cell.title?.text = articleMapper.filteredArticles[indexPath.row].headline!
+            cell.subtitle?.text = articleMapper.filteredArticles[indexPath.row].publishedDate?.description
+            configureCell(cell)
+            return cell
+        
+        }else{
+            cell2 = tableView.dequeueReusableCellWithIdentifier("setting_cell", forIndexPath: indexPath) as? UITableViewCell
+            cell2!.textLabel?.text = "Come back in X days"
+            return cell2!
+        }
+        
+        return cell2!
+        
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectedArticle = articleMapper.filteredArticles[indexPath.row]
-        appDelegate.addArticle(selectedArticle!)
-        //performSegueWithIdentifier("goToArticle", sender: self)
+        if (indexPath.section != 1) {
+            selectedArticle = articleMapper.filteredArticles[indexPath.row]
+            appDelegate.addArticle(selectedArticle!)
+            performSegueWithIdentifier("toArticle", sender: self)
+        }else{
+            performSegueWithIdentifier("toReminder", sender: self)
+        }
     }
     
     @IBAction func returnToFeed(segue: UIStoryboardSegue) {
         
     }
+    
     
     //Error alert example from http://stackoverflow.com/questions/29001629/issues-with-displaying-alerts-in-swift-after-clicking-ok-it-unwinds-segue
     func showError(title: String, error: String){

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import ObjectMapper
+//import ObjectMapper
 
 
 //Base Article Object
