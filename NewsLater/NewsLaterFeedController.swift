@@ -103,12 +103,12 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
             cell.subtitle?.text = currentArticles[indexPath.row].publishedDate?.description
 
             if (currentArticles[indexPath.row].thumbnailUrl == nil){
-                cell.thumbnail.image = UIImage(named: "usatoday.png")
+                cell.thumbnail.image = UIImage(named: "BlankThumbnail.png")
             }
             else{
                 let imageData = NSData(contentsOfURL: currentArticles[indexPath.row].thumbnailUrl!)
                 if (imageData == nil){
-                    cell.thumbnail.image = UIImage(named: "usatoday.png")
+                    cell.thumbnail.image = UIImage(named: "BlankThumbnail.png")
                 }
                 else{
                     let image = UIImage(data: imageData!)

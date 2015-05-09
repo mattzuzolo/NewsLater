@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		271FA4851AFEA0F30064299F /* BlankThumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = 271FA4841AFEA0F30064299F /* BlankThumbnail.png */; };
 		27232DDE1AE030120093D998 /* RecentlyReadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27232DDD1AE030120093D998 /* RecentlyReadViewController.swift */; };
 		27232DE11AE086CE0093D998 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27232DE01AE086CE0093D998 /* ArticleViewController.swift */; };
 		27232DE61AE088DF0093D998 /* RemindersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27232DE51AE088DF0093D998 /* RemindersViewController.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		271FA4841AFEA0F30064299F /* BlankThumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlankThumbnail.png; sourceTree = "<group>"; };
 		27232DDD1AE030120093D998 /* RecentlyReadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentlyReadViewController.swift; sourceTree = "<group>"; };
 		27232DE01AE086CE0093D998 /* ArticleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
 		27232DE51AE088DF0093D998 /* RemindersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemindersViewController.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				56EC06221AF2A0C200E6B079 /* ReminderPickerViewController.swift */,
 				53DC733A1AE09B0E000C78B7 /* ArticleMapper.swift */,
 				27756E2C1AF2A4B30045B004 /* ArticleTableViewCell.swift */,
+				271FA4841AFEA0F30064299F /* BlankThumbnail.png */,
 				53D60C7E1AFBCB5F000B9AE2 /* usatoday.png */,
 			);
 			path = NewsLater;
@@ -232,6 +235,7 @@
 			files = (
 				9635D5771ADD8A76000DE3D6 /* Main.storyboard in Resources */,
 				53D60C7F1AFBCB5F000B9AE2 /* usatoday.png in Resources */,
+				271FA4851AFEA0F30064299F /* BlankThumbnail.png in Resources */,
 				9635D57C1ADD8A76000DE3D6 /* LaunchScreen.xib in Resources */,
 				9635D5791ADD8A76000DE3D6 /* Images.xcassets in Resources */,
 			);

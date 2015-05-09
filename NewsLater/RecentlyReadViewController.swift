@@ -41,6 +41,21 @@ class RecentlyReadViewController: UIViewController, UITableViewDataSource, UITab
         let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
         cell.title?.text = recentlyRead![indexPath.row].headline!
         cell.subtitle?.text = "\(recentlyRead![indexPath.row].publication!) / \(recentlyRead![indexPath.row].publishedDate?.description)"
+        
+        if (recentlyRead?[indexPath.row].thumbnailUrl == nil){
+            cell.thumbnail.image = UIImage(named: "BlankThumbnail.png")
+        }
+        else{
+            let imageData = NSData(contentsOfURL: recentlyRead![indexPath.row].thumbnailUrl!)
+            if (imageData == nil){
+                cell.thumbnail.image = UIImage(named: "BlankThumbnail.png")
+            }
+            else{
+                let image = UIImage(data: imageData!)
+                cell.thumbnail.image = image!
+            }
+            
+        }
         cell.configureCell(tableView.rowHeight, frameWidth: tableView.frame.width)
         return cell
     }
