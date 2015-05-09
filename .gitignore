@@ -21,3 +21,5 @@ DerivedData
 *.xcuserstate
 ObjectMapper/
 .DS_Store
+
+NewsLater.xcodeproj/project.pbxproj
