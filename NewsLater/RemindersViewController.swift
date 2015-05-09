@@ -20,7 +20,7 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     var setReminder: Bool = false
     //use NSDictionary to save and load when user exit and launch app
     var switchStatus: Bool = false
-    var preDay: String = "1"
+    var preDay: String = "0"
     var preHour: String = "00"
     
     override func viewDidLoad() {
