@@ -15,11 +15,6 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     @IBOutlet weak var feedView: UITableView!
-    var setReminder: Bool?
-    var switchStatus: Bool?
-    var preDay: String?
-    var preHour: String?
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +62,11 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
        
     }
     
+    override func viewWillAppear(animated: Bool) {
+        var indexPath = NSIndexPath(forRow: 0, inSection: 1)
+        self.feedView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
@@ -90,13 +90,9 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
             return cell
         
         }else{
-            //loadData()
             cell2 = tableView.dequeueReusableCellWithIdentifier("setting_cell", forIndexPath: indexPath) as? UITableViewCell
-            //if(switchStatus! == true && setReminder! == true){
-                cell2!.textLabel?.text = "Come back in X days"
-            //}else{
-            //    cell2!.textLabel?.text = "Set Reminder"
-            //}
+            cell2!.textLabel?.text = "Remind me to come back!"
+            cell2!.textLabel?.textColor = UIColor.redColor()
             return cell2!
         }
         
