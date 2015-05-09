@@ -122,6 +122,16 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == "toArticle"){
+            let destinationViewController = segue.destinationViewController as! ArticleViewController
+            if(selectedArticle != nil) {
+                destinationViewController.article = selectedArticle
+            }
+        }
+    }
+    
+    
     @IBAction func returnToFeed(segue: UIStoryboardSegue) {
         
     }

@@ -461,6 +461,10 @@
                             <constraint firstItem="jd7-Ce-Uv3" firstAttribute="top" secondItem="7Bf-Dl-X9E" secondAttribute="bottom" id="cEA-OH-nqj"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="articleNavBar" destination="FUf-1y-iVo" id="lwT-AR-B6v"/>
+                        <outlet property="articleWebView" destination="aCz-0B-dgd" id="9UL-G0-fkN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="igl-8X-O1H" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="hz0-aR-eLa" userLabel="Exit" sceneMemberID="exit"/>

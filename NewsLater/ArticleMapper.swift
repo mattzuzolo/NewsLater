@@ -89,7 +89,7 @@ class ArticleMapper: NSObject{
                                                     var thumbnailUrl : NSURL?
                                                     if(thumbnailUrlString != nil){
                                                         thumbnailUrl = NSURL(string: thumbnailUrlString!)
-                                                    }  //Possibly easier to point to no thumbnail graphic here.
+                                                    }  //Possibly easier to point to "no thumbnail" graphic here.
                                                     
                                                     //Get Tags
                                                     var storyTags = Set<String>()
@@ -181,7 +181,7 @@ class ArticleMapper: NSObject{
                                         var thumbnailUrl : NSURL?
                                         if(thumbnailUrlString != nil){
                                             thumbnailUrl = NSURL(string: thumbnailUrlString!)
-                                        }  //Possibly easier to point to no thumbnail graphic here.
+                                        }  //Possibly easier to point to "no thumbnail" graphic here.
                                         
                                         //Get Tags
                                         var storyTags = Set<String>()
@@ -290,13 +290,13 @@ class ArticleMapper: NSObject{
         for gdArticle in articlesGD {
             if readHeadlines.contains(gdArticle.headline!) {
                 articlesNYT.remove(gdArticle)
-            } // Swift needs an Elvis operator ?:
+            }
         }
         
         for usatArticle in articlesUSAT {
             if readHeadlines.contains(usatArticle.headline!) {
                 articlesNYT.remove(usatArticle)
-            } // Swift needs an Elvis operator ?:
+            }
         }
         
         
@@ -354,6 +354,9 @@ class ArticleMapper: NSObject{
         
         self.filteredArticles += Array(articlesNYT)
         self.filteredArticles += Array(articlesGD)
-        self.filteredArticles += Array(articlesUSAT)
+        //self.filteredArticles += Array(articlesUSAT) 
+        
+        //Rediculous random sort.  I tried a few Stackoverflow things and they weren't working.
+        self.filteredArticles.sort() { ($0.hashValue + Int(arc4random_uniform(1000000))) > ($1.hashValue + Int(arc4random_uniform(1000000)))}
     }
 }

@@ -8,13 +8,33 @@
 
 import UIKit
 
-class ArticleViewController: UIViewController {
+class ArticleViewController: UIViewController, UIWebViewDelegate {
 
+    
+    @IBOutlet weak var articleWebView: UIWebView!
+    
+    @IBOutlet weak var articleNavBar: UINavigationItem!
+
+    
+    var article : Article?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        articleWebView.delegate = self
+        
+        if article != nil {
+            articleNavBar.title = article!.publication
+            
+            //Get the URL and go to the page
+            var url = NSURL(string: article!.url as! String)
+            if url != nil {
+                var requestPage = NSMutableURLRequest(URL: url!)
+                articleWebView.loadRequest(requestPage)
+            } else {
+                showError("Error loading article", error: "Could not connect to " + article!.publication! + " to retrieve article.")
+            }
+        }
     }
     
     
@@ -42,5 +62,16 @@ class ArticleViewController: UIViewController {
         
         //triggering the actual presentation
         self.presentViewController(activityViewController, animated: true, completion: nil)
+    }
+    
+    //Error alert popup
+    func showError(title: String, error: String){
+        var alert = UIAlertController(title: title, message: error, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            self.dismissViewControllerAnimated(true, completion: nil)
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 }
