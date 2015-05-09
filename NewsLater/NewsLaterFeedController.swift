@@ -97,12 +97,19 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
-        cell.title?.text = articleMapper.filteredArticles[indexPath.row].headline!
-        cell.subtitle?.text = "\(articleMapper.filteredArticles[indexPath.row].publication!) / \(articleMapper.filteredArticles[indexPath.row].publishedDate?.description)"
-        cell.configureCell(feedView.rowHeight, frameWidth: feedView.frame.width)
-        return cell
+        if(indexPath.section == 0){
+            let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
+            cell.title?.text = currentArticles[indexPath.row].headline!
+            cell.subtitle?.text = currentArticles[indexPath.row].publishedDate?.description
+            cell.configureCell(feedView.rowHeight, frameWidth: feedView.frame.width)
+            return cell
+        }else{
+            var cell2:UITableViewCell?
+            cell2 = tableView.dequeueReusableCellWithIdentifier("setting_cell", forIndexPath: indexPath) as? UITableViewCell
+            cell2!.textLabel?.text = "Remind me to come back!"
+            cell2!.textLabel?.textColor = UIColor.redColor()
+            return cell2!
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
