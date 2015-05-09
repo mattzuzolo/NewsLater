@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import ObjectMapper
+//import ObjectMapper
 
 
 //Base Article Object
@@ -17,10 +17,10 @@ class Article: NSObject, NSCoding {
     var byline: String?
     var publishedDate: NSString?
     var url: NSString?
-    var thumbnailUrl: NSString? //Points to the Thumbnail object
+    var thumbnailUrl: NSURL? //Points to the Thumbnail object
     var tags: Set<NSString>?
     
-    init(headline: String?, publication: String?, byline: String?, publishedDate: NSString?, url: NSString?, thumbnailUrl: NSString?, tags: Set<NSString>){
+    init(headline: String?, publication: String?, byline: String?, publishedDate: NSString?, url: NSString?, thumbnailUrl: NSURL?, tags: Set<NSString>){
         self.headline = headline
         self.publication = publication
         self.byline = byline
@@ -37,7 +37,7 @@ class Article: NSObject, NSCoding {
         self.byline = aDecoder.decodeObjectForKey("byline") as! String?
         self.publishedDate = aDecoder.decodeObjectForKey("publishedDate") as! NSString?
         self.url = aDecoder.decodeObjectForKey("url") as! NSString?
-        self.thumbnailUrl = aDecoder.decodeObjectForKey("thumbnailUrl") as! NSString?
+        self.thumbnailUrl = aDecoder.decodeObjectForKey("thumbnailUrl") as! NSURL?
         self.tags = aDecoder.decodeObjectForKey("tags") as? Set<NSString>        
     }
     

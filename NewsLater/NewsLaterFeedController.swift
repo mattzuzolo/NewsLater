@@ -12,6 +12,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
 
     var articleMapper: ArticleMapper = ArticleMapper()
     var selectedArticle: Article?
+    var currentArticles = Array<Article>()
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     let dateFormatter = NSDateFormatter()
@@ -30,49 +31,69 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         //Chained completionHandlers to ensure they all get called before loading the data. 
         //Main issue with this (other than that they can't parrallel call) is that there
         //is a total fail if even one of the calls fails.
-        articleMapper.loadArticles("NYT", completionHandler:{
-            (articles, errorString) -> Void in
-            if let unwrappedErrorString = errorString {
-                //Error, so popup an alert
-                self.showError("Could not load data from New York Times", error: errorString!)
-                
-            } else {
-                //self.articleMapper.filteredArticles += self.articleMapper.articlesNYT
-                self.articleMapper.loadArticles("GD", completionHandler:{
-                    (articles, errorString) -> Void in
-                    if let unwrappedErrorString = errorString {
-                        //Error, so popup an alert
-                        self.showError("Could not load data from the Guardian", error: errorString!)
-                        
-                    } else {
-                        //self.articleMapper.filteredArticles += self.articleMapper.articlesGD
-                        self.articleMapper.loadArticles("USAT", completionHandler:{
-                            (articles, errorString) -> Void in
-                            if let unwrappedErrorString = errorString {
-                                //Error, so popup an alert
-                                self.showError("Could not load data from USA Today", error: errorString!)
-                                
-                            } else {
-                                //self.articleMapper.filteredArticles += self.articleMapper.articlesUSAT
-                                self.articleMapper.filterAPI(false, delegate: self.appDelegate) //bool value is if it's fresh or not.
-                                self.feedView.reloadData()
-                            }
-                        })
-                    }
-                })
-               
-            }
-        })
+        if(articleMapper.filteredArticles.count < 5){
+            articleMapper.loadArticles("NYT", completionHandler:{
+                (articles, errorString) -> Void in
+                if let unwrappedErrorString = errorString {
+                    //Error, so popup an alert
+                    self.showError("Could not load data from New York Times", error: errorString!)
+                    
+                } else {
+                    //self.articleMapper.filteredArticles += self.articleMapper.articlesNYT
+                    self.articleMapper.loadArticles("GD", completionHandler:{
+                        (articles, errorString) -> Void in
+                        if let unwrappedErrorString = errorString {
+                            //Error, so popup an alert
+                            self.showError("Could not load data from the Guardian", error: errorString!)
+                            
+                        } else {
+                            //self.articleMapper.filteredArticles += self.articleMapper.articlesGD
+                            self.articleMapper.loadArticles("USAT", completionHandler:{
+                                (articles, errorString) -> Void in
+                                if let unwrappedErrorString = errorString {
+                                    //Error, so popup an alert
+                                    self.showError("Could not load data from USA Today", error: errorString!)
+                                    
+                                } else {
+                                    //self.articleMapper.filteredArticles += self.articleMapper.articlesUSAT
+                                    self.articleMapper.filterAPI(false, delegate: self.appDelegate) //bool value is if it's fresh or not.
+                                    
+                                    self.currentArticles = Array(self.articleMapper.filteredArticles[0...4])
+                                    self.articleMapper.filteredArticles.removeRange(0...4)
+                                    self.feedView.reloadData()
+                                }
+                            })
+                        }
+                    })
+                   
+                }
+            })
+        }
+        else{
+
+            currentArticles = Array(articleMapper.filteredArticles[0...4])
+            articleMapper.filteredArticles.removeRange(0...4)
+            feedView.reloadData()
+        }
         
        
     }
     
+    override func viewWillAppear(animated: Bool) {
+        var indexPath = NSIndexPath(forRow: 0, inSection: 1)
+        self.feedView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return articleMapper.filteredArticles.count
+        if(section == 0){
+            return currentArticles.count
+        }else{
+            return 1
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -85,12 +106,20 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectedArticle = articleMapper.filteredArticles[indexPath.row]
-        appDelegate.addArticle(selectedArticle!)
-        //performSegueWithIdentifier("goToArticle", sender: self)
+        if (indexPath.section != 1) {
+            selectedArticle = articleMapper.filteredArticles[indexPath.row]
+            appDelegate.addArticle(selectedArticle!)
+            performSegueWithIdentifier("toArticle", sender: self)
+        }else{
+            performSegueWithIdentifier("toReminder", sender: self)
+        }
     }
     
     @IBAction func returnToFeed(segue: UIStoryboardSegue) {
+        
+    }
+    
+    @IBAction func saveToFeed(segue: UIStoryboardSegue) {
         
     }
     
