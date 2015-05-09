@@ -64,12 +64,12 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
             cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier as! String, forIndexPath: indexPath) as? UITableViewCell
             cell!.textLabel?.text = "Remind me to come back"
             
-            var reminderSwitch=UISwitch(frame:CGRectMake(150, 300, 0, 0));
+            var reminderSwitch=UISwitch(frame:CGRectMake(150, 300, 0, 0))
             cell?.accessoryView = reminderSwitch
             reminderSwitch.on = switchStatus
             reminderSwitch.setOn(switchStatus, animated: false);
-            reminderSwitch.addTarget(self, action: "switchValueDidChange:", forControlEvents: .ValueChanged);
-            self.view.addSubview(reminderSwitch);
+            reminderSwitch.addTarget(self, action: "switchValueDidChange:", forControlEvents: .ValueChanged)
+            self.view.addSubview(reminderSwitch)
             
         }else if(indexPath.section == 1){ //cell content changes base on data
             cellIdentifier = "dynamicCellType"

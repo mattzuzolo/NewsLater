@@ -15,6 +15,7 @@
 		534137C31AE02D6400C9F974 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534137C21AE02D6400C9F974 /* Article.swift */; };
 		53D60C7F1AFBCB5F000B9AE2 /* usatoday.png in Resources */ = {isa = PBXBuildFile; fileRef = 53D60C7E1AFBCB5F000B9AE2 /* usatoday.png */; };
 		53DC733B1AE09B0E000C78B7 /* ArticleMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DC733A1AE09B0E000C78B7 /* ArticleMapper.swift */; };
+		564D777F1AFE9F6D0015BFAB /* ReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564D777E1AFE9F6D0015BFAB /* ReminderTableViewCell.swift */; };
 		56EC06231AF2A0C200E6B079 /* ReminderPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EC06221AF2A0C200E6B079 /* ReminderPickerViewController.swift */; };
 		9635D5721ADD8A76000DE3D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9635D5711ADD8A76000DE3D6 /* AppDelegate.swift */; };
 		9635D5771ADD8A76000DE3D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9635D5751ADD8A76000DE3D6 /* Main.storyboard */; };
@@ -55,6 +56,7 @@
 		534137C21AE02D6400C9F974 /* Article.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		53D60C7E1AFBCB5F000B9AE2 /* usatoday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usatoday.png; sourceTree = "<group>"; };
 		53DC733A1AE09B0E000C78B7 /* ArticleMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleMapper.swift; sourceTree = "<group>"; };
+		564D777E1AFE9F6D0015BFAB /* ReminderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderTableViewCell.swift; sourceTree = "<group>"; };
 		56EC06221AF2A0C200E6B079 /* ReminderPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderPickerViewController.swift; sourceTree = "<group>"; };
 		9635D56C1ADD8A76000DE3D6 /* NewsLater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsLater.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9635D5701ADD8A76000DE3D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				56EC06221AF2A0C200E6B079 /* ReminderPickerViewController.swift */,
 				53DC733A1AE09B0E000C78B7 /* ArticleMapper.swift */,
 				27756E2C1AF2A4B30045B004 /* ArticleTableViewCell.swift */,
+				564D777E1AFE9F6D0015BFAB /* ReminderTableViewCell.swift */,
 				53D60C7E1AFBCB5F000B9AE2 /* usatoday.png */,
 			);
 			path = NewsLater;
@@ -260,6 +263,7 @@
 				531841E11ADD930200461191 /* NewsLaterFeedController.swift in Sources */,
 				534137C31AE02D6400C9F974 /* Article.swift in Sources */,
 				53DC733B1AE09B0E000C78B7 /* ArticleMapper.swift in Sources */,
+				564D777F1AFE9F6D0015BFAB /* ReminderTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
