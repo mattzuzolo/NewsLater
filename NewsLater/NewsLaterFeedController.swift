@@ -79,7 +79,6 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if(indexPath.section == 0){
 			if editingStyle == UITableViewCellEditingStyle.Delete {
-				appDelegate.addRecentlyReadArticle(currentArticles[indexPath.row])
                 appDelegate.addReadArticles(currentArticles[indexPath.row])
 				currentArticles.removeAtIndex(indexPath.row)
 				tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
@@ -97,7 +96,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if (indexPath.section != 1) {
 
-            selectedArticle = articleMapper.filteredArticles[indexPath.row]
+            selectedArticle = currentArticles[indexPath.row]
             appDelegate.addReadArticles(selectedArticle!)
             appDelegate.addRecentlyReadArticle(selectedArticle!)
             performSegueWithIdentifier("toArticle", sender: self)
@@ -111,6 +110,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
             let destinationViewController = segue.destinationViewController as! ArticleViewController
             if(selectedArticle != nil) {
                 destinationViewController.article = selectedArticle
+                destinationViewController.sourceView = "feed"
             }
         }
     }
@@ -183,36 +183,5 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
                 
             }
         })
-    }
-    
-    func configureCell(cell: ArticleTableViewCell){
-        let width = feedView.frame.width
-        let height = feedView.rowHeight
-        
-        let views = ["thumbnail": cell.thumbnail, "title": cell.title, "subtitle": cell.subtitle]
-        
-        //Visual Format Language representation of needed constraints
-        let imageHStr = "H:|-\(width / 10)-[thumbnail(<=\(height * 8 / 10))]-(>=\(width - ((8 * height / 10) + width / 10)))-|"
-        let imageVStr = "V:|-\(height / 10)-[thumbnail(<=\(height * 8 / 10))]-(>=\(height / 10))-|"
-        let titleHStr = "H:|-\((2 * width / 10) + (height * 8 / 10))-[title]-|"
-        let subtitleHStr = "H:|-\((2 * width / 10) + (height * 8 / 10))-[subtitle]-|"
-        let labelVStr = "V:|-\(height / 10)-[title][subtitle]-\(height / 10)-|"
-        
-        cell.thumbnail.setTranslatesAutoresizingMaskIntoConstraints(false)
-        cell.title.setTranslatesAutoresizingMaskIntoConstraints(false)
-        cell.subtitle.setTranslatesAutoresizingMaskIntoConstraints(false)
-        
-
-        var thumbnailConstrH = NSLayoutConstraint.constraintsWithVisualFormat(imageHStr, options: NSLayoutFormatOptions(0), metrics: nil, views: views)
-        var thumbnailConstrV =  NSLayoutConstraint.constraintsWithVisualFormat(imageVStr, options: NSLayoutFormatOptions(0), metrics: nil, views: views)
-        var titleConstrH = NSLayoutConstraint.constraintsWithVisualFormat(titleHStr, options: NSLayoutFormatOptions(0), metrics: nil, views: views)
-        var subtitleConstrH = NSLayoutConstraint.constraintsWithVisualFormat(subtitleHStr, options: NSLayoutFormatOptions(0), metrics: nil, views: views)
-        var labelConstrV = NSLayoutConstraint.constraintsWithVisualFormat(labelVStr, options: NSLayoutFormatOptions(0), metrics: nil, views: views)
-        
-        cell.addConstraints(thumbnailConstrH)
-        cell.addConstraints(thumbnailConstrV)
-        cell.addConstraints(titleConstrH)
-        cell.addConstraints(subtitleConstrH)
-        cell.addConstraints(labelConstrV)
     }
 }

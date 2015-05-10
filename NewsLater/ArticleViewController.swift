@@ -18,6 +18,7 @@ class ArticleViewController: UIViewController, UIWebViewDelegate {
     
     var article : Article?
     //var url : NSURL?
+    var sourceView: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,14 @@ class ArticleViewController: UIViewController, UIWebViewDelegate {
             } else {
                 showError("Error loading article", error: "Could not connect to " + article!.publication! + " to retrieve article.")
             }
+        }
+    }
+    @IBAction func back(sender: AnyObject) {
+        if (sourceView == "history"){
+            performSegueWithIdentifier("articleToHistory", sender: self)
+        }
+        else{
+            performSegueWithIdentifier("articleToFeed", sender: self)
         }
     }
     
