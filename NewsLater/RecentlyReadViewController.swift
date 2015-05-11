@@ -31,6 +31,9 @@ class RecentlyReadViewController: UIViewController, UITableViewDataSource, UITab
         
         //load articles from app delegate
         recentlyRead = appDelegate.getRecentlyRead()
+        if (recentlyRead != nil){
+            recentlyRead = recentlyRead!.reverse()
+        }
         tableView.reloadData()
     }
     
