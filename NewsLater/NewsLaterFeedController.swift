@@ -95,6 +95,8 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if (indexPath.section != 1) {
+            var cell = tableView.cellForRowAtIndexPath(indexPath) as! ArticleTableViewCell
+            cell.title.textColor = UIColor(red: 102.0 / 255.0, green: 102.0 / 255.0, blue: 102.0/255.0, alpha: 1.0)
 
             selectedArticle = currentArticles[indexPath.row]
             appDelegate.addReadArticles(selectedArticle!)

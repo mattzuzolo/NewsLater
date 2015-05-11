@@ -11,15 +11,20 @@ import UIKit
 class RecentlyReadViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    var dateFormatter = NSDateFormatter()
+    var dateFormatterNYT = NSDateFormatter()
+    var dateFormatterTG = NSDateFormatter()
     var recentlyRead: Array<Article>? = nil
     var selectedArticle: Article?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
-        dateFormatter.locale = NSLocale(localeIdentifier: "US_en_POSIX")
+        dateFormatterNYT.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        dateFormatterNYT.locale = NSLocale(localeIdentifier: "US_en_POSIX")
+        
+        dateFormatterTG.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        dateFormatterTG.locale = NSLocale(localeIdentifier: "US_en_POSIX")
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = tableView.frame.height / 5
@@ -45,21 +50,21 @@ class RecentlyReadViewController: UIViewController, UITableViewDataSource, UITab
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
         cell.title?.text = recentlyRead![indexPath.row].headline!
-//        var testString = "2015-05-09T13:11:41-05:00"
-//        println(recentlyRead![indexPath.row].publishedDate!.description)
-//        //var date = NSDate()
-//        var err = NSError()
-//        //let testDate = dateFormatter.getObjectValue(&date, forString: testString, errorDescription: &err)
-//        //println(testString)
-//        let date2 = dateFormatter.dateFromString(recentlyRead![indexPath.row].publishedDate!.description)
-//        let date = NSDate(timeIntervalSinceNow: 0)
-//        //println(date)
-//        let testDate = dateFormatter.dateFromString(testString)
-//        //println(dateFormatter.stringFromDate(date))
-//        println(testDate)
-//        println(date2)
         
-        cell.subtitle?.text = "\(recentlyRead![indexPath.row].publication!) / \(recentlyRead![indexPath.row].publishedDate?.description)"
+        var date: NSDate?
+        println(recentlyRead![indexPath.row].publishedDate!.description)
+        
+        if recentlyRead![indexPath.row].publication! == "The Guardian"{
+            println("The Guardian")
+            date = dateFormatterTG.dateFromString(recentlyRead![indexPath.row].publishedDate!.description)
+        }
+        else{
+            println("NYT")
+            date = dateFormatterNYT.dateFromString(recentlyRead![indexPath.row].publishedDate!.description)
+        }
+        
+        println(date)
+        cell.subtitle?.text = "\(recentlyRead![indexPath.row].publication!) / \(recentlyRead![indexPath.row].publishedDate!.description)"
         
         if (recentlyRead?[indexPath.row].thumbnailUrl == nil){
             cell.thumbnail.image = UIImage(named: "BlankThumbnail")
@@ -80,14 +85,12 @@ class RecentlyReadViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("HIT")
         selectedArticle = recentlyRead![indexPath.row]
         performSegueWithIdentifier("historyToArticle", sender: self)
 
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        println("Preparing for segue")
         if(segue.identifier == "historyToArticle"){
             //segue started
             let destinationViewController = segue.destinationViewController as! ArticleViewController
