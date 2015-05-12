@@ -13,6 +13,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     var articleMapper: ArticleMapper = ArticleMapper()
     var selectedArticle: Article?
     var currentArticles = Array<Article>()
+    var articleRowHeight: CGFloat!
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     //Store user provided details in the future and for now the time since last opened.
@@ -25,7 +26,8 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         //set row height so that 5 stories will fill feed
-        feedView.rowHeight = feedView.frame.height / 5
+        articleRowHeight = (UIScreen.mainScreen().applicationFrame.height / 5) - ((44 + 20) / 5)
+        //feedView.rowHeight = feedView.frame.height / 5
         
         defaults.setObject(NSDate(), forKey: "lastReadNews")
         
@@ -64,9 +66,6 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         if(indexPath.section == 0){
             let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
             cell.title?.text = currentArticles[indexPath.row].headline!
-            
-            //let date = dateFormatter.dateFromString(currentArticles[indexPath.row].publishedDate!.description)
-            //println(date)
             cell.subtitle?.text = currentArticles[indexPath.row].publishedDate?.description
 
             if (currentArticles[indexPath.row].thumbnailUrl == nil){
@@ -83,7 +82,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
                 }
                
             }
-            cell.configureCell(feedView.rowHeight, frameWidth: feedView.frame.width)
+            cell.configureCell(articleRowHeight!, frameWidth: feedView.frame.width)
             return cell
         }else{
             var cell2 = tableView.dequeueReusableCellWithIdentifier("setting_cell", forIndexPath: indexPath) as!  ReminderTableViewCell
@@ -116,6 +115,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        println(indexPath.row)
         if (indexPath.section != 1) {
             var cell = tableView.cellForRowAtIndexPath(indexPath) as! ArticleTableViewCell
             cell.title.textColor = UIColor(red: 102.0 / 255.0, green: 102.0 / 255.0, blue: 102.0/255.0, alpha: 1.0)
@@ -126,6 +126,15 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
             performSegueWithIdentifier("toArticle", sender: self)
         }else{
             performSegueWithIdentifier("toReminder", sender: self)
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if (indexPath.section == 0){
+            return articleRowHeight!
+        }
+        else{
+            return 44;
         }
     }
     
