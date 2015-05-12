@@ -102,6 +102,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="H5q-PG-uS1">
                         <barButtonItem key="rightBarButtonItem" title="History" id="UYP-np-Uhg">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="Il3-yY-NjD" kind="show" identifier="show_history" id="fWj-Ap-tkf"/>
                             </connections>
@@ -186,11 +187,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Reminder" id="Bzb-np-zqX">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="mty-9B-Z03">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="KWX-Tf-BA9" kind="unwind" identifier="returnToFeed" unwindAction="returnToFeed:" id="W45-iv-66L"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="GLA-7d-6I2">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="setReminder:" destination="Tr8-Rk-8So" id="dMw-5M-rDa"/>
                                 <segue destination="KWX-Tf-BA9" kind="unwind" identifier="saveToFeed" unwindAction="saveToFeed:" id="fXe-po-m5S"/>
@@ -233,12 +236,14 @@
                     </view>
                     <navigationItem key="navigationItem" title="Edit Reminder" id="6z1-Sk-ko9">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="pHU-Uf-uND">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="backToReminder:" destination="gVJ-GI-Gfz" id="ePT-5l-E1C"/>
                                 <segue destination="3Xn-eC-bwh" kind="unwind" identifier="returnToReminderList" unwindAction="returnToReminderList:" id="JEt-Gp-KWn"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="eNt-hz-8Ls">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="saveReminder:" destination="gVJ-GI-Gfz" id="xNz-oJ-tyN"/>
                                 <segue destination="3Xn-eC-bwh" kind="unwind" identifier="saveToReminderList" unwindAction="saveToReminderList:" id="be1-aA-k62"/>
@@ -326,6 +331,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="History" id="VAa-oO-YD9">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="jcw-92-zvg">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="vu9-F8-Qgc" kind="unwind" unwindAction="returnToFeed:" id="JyN-k2-fZm"/>
                             </connections>
@@ -369,11 +375,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="FUf-1y-iVo">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="C34-nz-UVE">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="back:" destination="LAI-zI-d0b" id="lH6-yg-dnx"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="UFF-Ha-qBl">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="share:" destination="LAI-zI-d0b" id="mdi-B8-2Ud"/>
                             </connections>
@@ -399,6 +407,10 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fvg-UX-POU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="1" green="0.25800622919999999" blue="0.13818088519999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
