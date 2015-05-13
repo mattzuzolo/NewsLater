@@ -22,6 +22,7 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     var switchStatus: Bool = false
     var preDay: String = "0"
     var preHour: String = "00"
+    var fire: NSDate = NSDate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,6 +147,7 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
         defaults.setObject(newHour, forKey: "hour")
         defaults.setBool(switchStatus, forKey: "switchStat")
         defaults.setBool(setReminder, forKey: "reminderStat")
+        defaults.setObject(fire, forKey: "fireTime")
         defaults.synchronize()
     }
     
@@ -172,9 +174,13 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
         //convert reminder time interval to seconds
         //var s: Double = (h * 60 * 60) + (d * 24 * 60 * 60)
         var s: Double = 10
+        //get current time
+        var current = NSDate()
+        //calculate firetime
+        fire = current.dateByAddingTimeInterval(s)
         
         var localNotification = UILocalNotification()
-        localNotification.fireDate = NSDate(timeIntervalSinceNow: s)
+        localNotification.fireDate = fire
         localNotification.alertBody = "Come back to read more news!"
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
         localNotification.soundName = UILocalNotificationDefaultSoundName
