@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var articlesFile = ""
     var recentlyReadFile = ""
     let fileMgr = NSFileManager.defaultManager()
+    
+    //View pointer for the feed so we can reload on open from background
+    var newsLaterFeedView : NewsLaterFeedController?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -128,6 +131,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        //This fires on newly opening the app or pulling from the background
+        if(newsLaterFeedView != nil){
+            //Check the last time the app was opened. If never opened us default of 3 days
+            let lastReadNews = newsLaterFeedView!.defaults.objectForKey("lastReadNews") as! NSDate!
+            var daysForNewArticles = 3
+            if(lastReadNews != nil){
+                daysForNewArticles = Int(lastReadNews.timeIntervalSinceNow) * -1 / 3600
+                if(daysForNewArticles > 1){
+                    newsLaterFeedView!.defaults.setObject(NSDate(), forKey: "lastReadNews")
+                    //reset the currentFeed to 0 if it's been over an hour
+                    newsLaterFeedView!.currentArticles = []
+                }else{
+                    daysForNewArticles = daysForNewArticles / 24
+                }
+            }
+        
+            newsLaterFeedView!.reloadFilteredArticles(daysForNewArticles)
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {

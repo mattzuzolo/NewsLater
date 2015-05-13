@@ -25,13 +25,14 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Set the view in the appDeligate
+        appDelegate.newsLaterFeedView = self
+        
         //set row height so that 5 stories will fill feed
         articleRowHeight = (UIScreen.mainScreen().applicationFrame.height / 5) - ((44 + 20) / 5)
         //feedView.rowHeight = feedView.frame.height / 5
         
-        defaults.setObject(NSDate(), forKey: "lastReadNews")
-        
-        //Check the last time the app was opened. If never opened us default of 3 days
+        /*Check the last time the app was opened. If never opened us default of 3 days
         let lastReadNews = defaults.objectForKey("lastReadNews") as! NSDate!
         if(lastReadNews != nil){
             daysForNewArticles = Int(lastReadNews.timeIntervalSinceNow) * -1 / 3600
@@ -42,7 +43,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
             }
         }
         
-        reloadFilteredArticles(daysForNewArticles)
+        reloadFilteredArticles(daysForNewArticles)*/
     }
     
     override func viewWillAppear(animated: Bool) {
