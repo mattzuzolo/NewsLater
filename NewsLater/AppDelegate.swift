@@ -109,6 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func addReadArticles(newArticle: Article){
         readArticles?.append(newArticle)
+        saveArticles(readArticles, file: articlesFile)
     }
     
     func applicationWillResignActive(application: UIApplication) {

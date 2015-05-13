@@ -19,7 +19,7 @@ class RecentlyReadViewController: UIViewController, UITableViewDataSource, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dateFormatterNYT.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        dateFormatterNYT.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'-5:00'"
         dateFormatterNYT.locale = NSLocale(localeIdentifier: "US_en_POSIX")
         
         dateFormatterTG.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
@@ -58,17 +58,13 @@ class RecentlyReadViewController: UIViewController, UITableViewDataSource, UITab
         println(recentlyRead![indexPath.row].publishedDate!.description)
         
         if recentlyRead![indexPath.row].publication! == "The Guardian"{
-            println("The Guardian")
-            date = dateFormatterTG.dateFromString(recentlyRead![indexPath.row].publishedDate!.description)
+            cell.subtitle?.text = "The Guardian / \(recentlyRead![indexPath.row].getTimeSincePublished(dateFormatterTG))"
         }
         else{
-            println("NYT")
-            date = dateFormatterNYT.dateFromString(recentlyRead![indexPath.row].publishedDate!.description)
+            cell.subtitle?.text = "NY Times / \(recentlyRead![indexPath.row].getTimeSincePublished(dateFormatterNYT))"
         }
         
-        println(date)
-        cell.subtitle?.text = "\(recentlyRead![indexPath.row].publication!) / \(recentlyRead![indexPath.row].publishedDate!.description)"
-        
+        //get correct thumbnail or use image not found icon
         if (recentlyRead?[indexPath.row].thumbnailUrl == nil){
             cell.thumbnail.image = UIImage(named: "BlankThumbnail")
         }

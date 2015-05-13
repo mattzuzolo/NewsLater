@@ -15,6 +15,8 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     var currentArticles = Array<Article>()
     var articleRowHeight: CGFloat!
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var dateFormatterNYT = NSDateFormatter()
+    var dateFormatterTG = NSDateFormatter()
     
     @IBOutlet weak var feedView: UITableView!
     
@@ -24,6 +26,13 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         //set row height so that 5 stories will fill feed
         articleRowHeight = (UIScreen.mainScreen().applicationFrame.height / 5) - ((44 + 20) / 5)
         //feedView.rowHeight = feedView.frame.height / 5
+        
+        dateFormatterNYT.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'-5:00'"
+        dateFormatterNYT.locale = NSLocale(localeIdentifier: "US_en_POSIX")
+        
+        dateFormatterTG.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        dateFormatterTG.locale = NSLocale(localeIdentifier: "US_en_POSIX")
+
         
         reloadFilteredArticles()
     }
@@ -49,8 +58,15 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         if(indexPath.section == 0){
             let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
             cell.title?.text = currentArticles[indexPath.row].headline!
-            cell.subtitle?.text = currentArticles[indexPath.row].publishedDate?.description
-
+            
+            if currentArticles[indexPath.row].publication! == "The Guardian"{
+                cell.subtitle?.text = "The Guardian / \(currentArticles[indexPath.row].getTimeSincePublished(dateFormatterTG))"
+            }
+            else{
+                cell.subtitle?.text = "NY Times / \(currentArticles[indexPath.row].getTimeSincePublished(dateFormatterNYT))"
+            }
+            
+            
             if (currentArticles[indexPath.row].thumbnailUrl == nil){
                 cell.thumbnail.image = UIImage(named: "BlankThumbnail")
             }
