@@ -52,17 +52,20 @@ class Article: NSObject, NSCoding {
 
     }
     
-    func getTimeSincePublished(formatter: NSDateFormatter) -> String{
+    func getTimeSincePublished(formatter: NSDateFormatter) -> NSTimeInterval{
         let date = formatter.dateFromString(publishedDate!.description)
         
         if (date == nil){
-            return ""
+            return 0
         }
         
-        var interval = date!.timeIntervalSinceNow
+        return date!.timeIntervalSinceNow
+    }
+    
+    func printTimeInterval(formatter: NSDateFormatter) -> String{
+        let interval = getTimeSincePublished(formatter)
         
         return intervalToOffset(interval)
-        
     }
     
     func intervalToOffset(interval: NSTimeInterval) -> String{

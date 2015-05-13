@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var articlesFile = ""
     var recentlyReadFile = ""
     let fileMgr = NSFileManager.defaultManager()
+    let secPerThreeDays: NSTimeInterval = 60 * 60 * 24 * 3
+    var dateFormatterNYT = NSDateFormatter()
+    var dateFormatterTG = NSDateFormatter()
     
     //View pointer for the feed so we can reload on open from background
     var newsLaterFeedView : NewsLaterFeedController?
@@ -32,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         readArticles = loadArticles(articlesFile)
         recentlyRead = loadArticles(recentlyReadFile)
+        
+        initDateFormatters()
         
         //for local notification
         if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
@@ -61,6 +66,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return nil
             }
         }
+    }
+    
+    func initDateFormatters(){
+        dateFormatterNYT.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'-5:00'"
+        dateFormatterNYT.locale = NSLocale(localeIdentifier: "US_en_POSIX")
+        
+        dateFormatterTG.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        dateFormatterTG.locale = NSLocale(localeIdentifier: "US_en_POSIX")
     }
     
 
@@ -107,12 +120,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             recentlyRead!.removeAtIndex(0)
         }
         saveArticles(recentlyRead, file: recentlyReadFile)
-        println(recentlyRead!.count)
     }
     
     func addReadArticles(newArticle: Article){
         readArticles?.append(newArticle)
         saveArticles(readArticles, file: articlesFile)
+        trimArticles(readArticles)
+    }
+    
+    func trimArticles(var articles: [Article]?){
+        if articles != nil{
+            for var i = 0; i < articles!.count; i++ {
+                if (articles![i].publication! == "The Guardian"){
+                    if articles![i].getTimeSincePublished(dateFormatterTG) > secPerThreeDays{
+                        articles!.removeAtIndex(i)
+                    }
+                }
+                else{
+                    if articles![i].getTimeSincePublished(dateFormatterNYT) > secPerThreeDays {
+                        articles!.removeAtIndex(i)
+                    }
+                }
+            }
+        }
     }
     
     func applicationWillResignActive(application: UIApplication) {
