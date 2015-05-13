@@ -15,20 +15,50 @@ class ArticleMapper: NSObject{
     var articlesUSAT = Set<Article>()
     var filteredArticles = Array<Article>()
     
+    //Days to set dates
+    var daysToSearch = 3
+    
     //Set of words we don't want made into tags
     let nonTags = Set(["he","she","said","and","but","or","nor","the","to","is","a","an","at","of","in","had","has","when","where","what","with","how","there","then","this", "for", "after", "before", "however", "by"])
     
     //Dictionary type to help facilitate a more generic load method
-    let urlDictionary = ["NYT": "https://api.nytimes.com/svc/topstories/v1/home.json?api-key=3caa4c3969858fadeaa4bbe5a3529235:13:71572887", "GD": "http://content.guardianapis.com/search?api-key=p7x4zprsbrgjpwx5nwuhqzkz&show-fields=thumbnail,byline&show-tags=all&days=3", "USAT": "http://api.usatoday.com/open/articles/mobile/topnews?encoding=json&api_key=qjc2b9y9ddpaj9buv9ksy4ju&days=3"]
+    var urlDictionary = ["NYT": "https://api.nytimes.com/svc/topstories/v1/home.json?api-key=3caa4c3969858fadeaa4bbe5a3529235:13:71572887", "GD": "http://content.guardianapis.com/search?api-key=p7x4zprsbrgjpwx5nwuhqzkz&show-fields=thumbnail,byline&show-tags=all&from-date=", "USAT": "http://api.usatoday.com/open/articles/mobile/topnews?encoding=json&api_key=qjc2b9y9ddpaj9buv9ksy4ju&days="]
     
     override init(){
         self.filteredArticles = Array<Article>() //Make sure it's a fresh empty array on init.
         self.articlesNYT = Set<Article>()
         self.articlesGD = Set<Article>()
         self.articlesUSAT = Set<Article>()
+        
     }
     
     func loadArticles(api: String, completionHandler: (ArticleMapper, String?) -> Void) {
+        //Need to set the Date to pull articles back to unless it is NYT
+        //New York Times is a curated list of Top Stories with priority on the last 24 Hours.
+        
+        if(api == "GD"){
+            var df = NSDateFormatter()
+            df.dateFormat = "yyyy-MM-dd"
+            df.locale = NSLocale(localeIdentifier: "US_en_POSIX")
+            
+            //Building the date this way handles Daylight Savings time and drops back the month/year when needed
+            //I rewrote it this way because my Jan1 test case was rolling over wrong initially
+            let calendar = NSCalendar.currentCalendar()
+            
+            let components = calendar.components(.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay, fromDate: NSDate())
+            components.day -= daysToSearch
+            
+            let date = calendar.dateFromComponents(components)
+            
+            //The Guardian Expects the format 2015-05-12 to be appended to the url String
+            self.urlDictionary["GD"]! = self.urlDictionary["GD"]! + df.stringFromDate(date!)//String(daysToSearch)
+            
+        } else if(api == "GD"){
+            //USAToday expects the number of days as an Int to pull.
+            self.urlDictionary["USAT"]! = self.urlDictionary["USAT"]! + String(daysToSearch)
+        }
+        
+        
         let URL = urlDictionary[api];
         if let url = NSURL(string: URL!) {
             let urlRequest = NSMutableURLRequest(URL: url)

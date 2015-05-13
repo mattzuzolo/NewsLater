@@ -18,10 +18,17 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     var dateFormatterNYT = NSDateFormatter()
     var dateFormatterTG = NSDateFormatter()
     
+    //Store user provided details in the future and for now the time since last opened.
+    let defaults = NSUserDefaults.standardUserDefaults()
+    var daysForNewArticles = 3
+    
     @IBOutlet weak var feedView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Set the view in the appDeligate
+        appDelegate.newsLaterFeedView = self
         
         //set row height so that 5 stories will fill feed
         articleRowHeight = (UIScreen.mainScreen().applicationFrame.height / 5) - ((44 + 20) / 5)
@@ -101,9 +108,14 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
 					currentArticles.append(articleMapper.filteredArticles[0])
 					articleMapper.filteredArticles.removeAtIndex(0)
 					feedView.reloadData()
-				}else{
-					reloadFilteredArticles()
 				}
+                //Make sure we don't go back more than a week at any given time when repopulating articles
+                else if(daysForNewArticles < 6){
+					reloadFilteredArticles(daysForNewArticles + 2) //Increment by 2 days
+				}
+                else{
+                    reloadFilteredArticles(7)
+                }
 			}
         }
     }
@@ -161,11 +173,12 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func reloadFilteredArticles(){
+    func reloadFilteredArticles(days: Int){
         //Solution from NSCoder meeting. We all agree it's not ideal, but it works for what time we had
         //Chained completionHandlers to ensure they all get called before loading the data.
         //Main issue with this (other than that they can't parrallel call) is that there
         //is a total fail if even one of the calls fails.
+        articleMapper.daysToSearch = days
         articleMapper.loadArticles("NYT", completionHandler:{
             (articles, errorString) -> Void in
             if let unwrappedErrorString = errorString {
