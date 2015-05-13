@@ -131,15 +131,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func trimArticles(var articles: [Article]?){
         if articles != nil{
             for var i = 0; i < articles!.count; i++ {
-                if (articles![i].publication! == "The Guardian"){
-                    if articles![i].getTimeSincePublished(dateFormatterTG) > secPerThreeDays{
-                        articles!.removeAtIndex(i)
-                    }
-                }
-                else{
-                    if articles![i].getTimeSincePublished(dateFormatterNYT) > secPerThreeDays {
-                        articles!.removeAtIndex(i)
-                    }
+                if articles![i].receivedDate.timeIntervalSinceNow > secPerThreeDays {
+                    articles!.removeAtIndex(i)
                 }
             }
         }
