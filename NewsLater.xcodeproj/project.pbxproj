@@ -122,7 +122,6 @@
 				53DC733A1AE09B0E000C78B7 /* ArticleMapper.swift */,
 				27756E2C1AF2A4B30045B004 /* ArticleTableViewCell.swift */,
 				564D77801AFEA65C0015BFAB /* ReminderTableViewCell.swift */,
-
 				53D60C7E1AFBCB5F000B9AE2 /* usatoday.png */,
 			);
 			path = NewsLater;
@@ -392,6 +391,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = NewsLater/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -402,6 +402,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = NewsLater/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

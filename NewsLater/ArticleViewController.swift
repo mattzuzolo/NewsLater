@@ -49,7 +49,7 @@ class ArticleViewController: UIViewController, UIWebViewDelegate {
     
     
     @IBAction func share(sender: AnyObject) {
-        let text = "\"" + article!.headline! + "\"" + " share from News Later "
+        let text = "\"" + article!.headline! + "\"" + " share from NewsLater "
         let url : NSURL = NSURL(string: article!.url as! String)!
         
         //create an instance of UIActivityViewController

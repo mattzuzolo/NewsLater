@@ -224,12 +224,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yrE-BH-sHl">
-                                <rect key="frame" x="0.0" y="83" width="600" height="162"/>
+                                <rect key="frame" x="0.0" y="15" width="600" height="216"/>
                             </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="yrE-BH-sHl" secondAttribute="bottom" constant="355" id="F8K-bm-HqT"/>
+                            <constraint firstItem="yrE-BH-sHl" firstAttribute="top" secondItem="lxX-Er-7uY" secondAttribute="top" id="Hxu-MM-zP4"/>
                             <constraint firstItem="yrE-BH-sHl" firstAttribute="leading" secondItem="lxX-Er-7uY" secondAttribute="leading" id="cid-ir-7FW"/>
                             <constraint firstAttribute="trailing" secondItem="yrE-BH-sHl" secondAttribute="trailing" id="hCO-Qx-dqS"/>
                         </constraints>
