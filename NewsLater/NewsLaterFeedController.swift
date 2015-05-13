@@ -28,6 +28,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadData()
         //Set the view in the appDeligate
         appDelegate.newsLaterFeedView = self
         
@@ -40,9 +41,11 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewWillAppear(animated: Bool) {
         loadData()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadData:", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        
         var indexPath = NSIndexPath(forRow: 0, inSection: 1)
         self.feedView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadData:", name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
