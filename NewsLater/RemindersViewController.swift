@@ -18,7 +18,6 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
     var newDay: String?
     var newHour: String?
     var setReminder: Bool = false
-    //use NSDictionary to save and load when user exit and launch app
     var switchStatus: Bool = false
     var preDay: String = "0"
     var preHour: String = "00"
@@ -78,7 +77,7 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
             cell!.textLabel?.text = "Come back in"
             cell!.detailTextLabel?.text = reminders[indexPath.row]
             
-            //if switch is off, cell should grayed out and not clickable
+            //if switch is off, cell should be grayed out and not clickable
             if(switchStatus == false){
                 cell!.textLabel?.textColor = UIColor.grayColor()
                 cell!.detailTextLabel?.textColor = UIColor.grayColor()
@@ -172,8 +171,8 @@ class RemindersViewController: UIViewController, UITableViewDataSource, UITableV
         var d: Double = (day as NSString).doubleValue
         var h: Double = (hour as NSString).doubleValue
         //convert reminder time interval to seconds
-        //var s: Double = (h * 60 * 60) + (d * 24 * 60 * 60)
-        var s: Double = 10
+        var s: Double = (h * 60 * 60) + (d * 24 * 60 * 60)
+        //var s: Double = 10 //for testing purpose
         //get current time
         var current = NSDate()
         //calculate firetime

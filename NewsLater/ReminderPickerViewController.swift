@@ -67,14 +67,14 @@ class ReminderPickerViewController: UIViewController, UIPickerViewDataSource, UI
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if(component == 0){
             selectedDay = "\(days[row])"
-            //if user select one of the titles disable save button
+            //if user select the Day title disable save button
             if(selectedDay == "Days"){
                 save.enabled = false
             }else{
                 save.enabled = true
             }
         }else{
-            //if user select one of the titles disable save button
+            //if user select the Hour title disable save button
             selectedHour = "\(hours[row])"
             if(selectedHour == "Hours"){
                 save.enabled = false

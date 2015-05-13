@@ -133,25 +133,23 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if(indexPath.section == 0){
-			if editingStyle == UITableViewCellEditingStyle.Delete {
-                appDelegate.addReadArticles(currentArticles[indexPath.row])
-				currentArticles.removeAtIndex(indexPath.row)
-				tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-				if(articleMapper.filteredArticles.count > 0){
-					currentArticles.append(articleMapper.filteredArticles[0])
-					articleMapper.filteredArticles.removeAtIndex(0)
-					feedView.reloadData()
-				}
-                //Make sure we don't go back more than a week at any given time when repopulating articles
-                else if(daysForNewArticles < 6){
-					reloadFilteredArticles(daysForNewArticles + 2) //Increment by 2 days
-				}
-                else{
-                    reloadFilteredArticles(7)
-                }
-			}
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath){
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            appDelegate.addReadArticles(currentArticles[indexPath.row])
+            currentArticles.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            if(articleMapper.filteredArticles.count > 0){
+                currentArticles.append(articleMapper.filteredArticles[0])
+                articleMapper.filteredArticles.removeAtIndex(0)
+                feedView.reloadData()
+            }
+            //Make sure we don't go back more than a week at any given time when repopulating articles
+            else if(daysForNewArticles < 6){
+                reloadFilteredArticles(daysForNewArticles + 2) //Increment by 2 days
+            }
+            else{
+                reloadFilteredArticles(7)
+            }
         }
     }
     
