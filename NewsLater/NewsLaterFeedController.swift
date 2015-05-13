@@ -15,6 +15,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     var currentArticles = Array<Article>()
     var articleRowHeight: CGFloat!
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+
     
     //Store user provided details in the future and for now the time since last opened.
     let defaults = NSUserDefaults.standardUserDefaults()
@@ -27,25 +28,14 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData()
+        //Set the view in the appDeligate
+        appDelegate.newsLaterFeedView = self
+        
         //set row height so that 5 stories will fill feed
-        articleRowHeight = (UIScreen.mainScreen().applicationFrame.height / 5) - ((44 + 20) / 5)
-        //feedView.rowHeight = feedView.frame.height / 5
+        //each row is (screen - status bar + navbar height + last cell height) / 5
+        articleRowHeight = (UIScreen.mainScreen().applicationFrame.height / 5) - ((44 + 44) / 5)
         
-        defaults.setObject(NSDate(), forKey: "lastReadNews")
-        
-        //Check the last time the app was opened. If never opened us default of 3 days
-        let lastReadNews = defaults.objectForKey("lastReadNews") as! NSDate!
-        if(lastReadNews != nil){
-            daysForNewArticles = Int(lastReadNews.timeIntervalSinceNow) * -1 / 3600
-            if(daysForNewArticles > 1){
-                defaults.setObject(NSDate(), forKey: "lastReadNews")
-            }else{
-                daysForNewArticles = daysForNewArticles / 24
-            }
-        }
-        
-        reloadFilteredArticles(daysForNewArticles)
+        //reloadFilteredArticles()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -71,8 +61,15 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         if(indexPath.section == 0){
             let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
             cell.title?.text = currentArticles[indexPath.row].headline!
-            cell.subtitle?.text = currentArticles[indexPath.row].publishedDate?.description
-
+            
+            if currentArticles[indexPath.row].publication! == "The Guardian"{
+                cell.subtitle?.text = "The Guardian / \(currentArticles[indexPath.row].printTimeInterval(appDelegate.dateFormatterTG))"
+            }
+            else{
+                cell.subtitle?.text = "NY Times / \(currentArticles[indexPath.row].printTimeInterval(appDelegate.dateFormatterNYT))"
+            }
+            
+            
             if (currentArticles[indexPath.row].thumbnailUrl == nil){
                 cell.thumbnail.image = UIImage(named: "BlankThumbnail")
             }

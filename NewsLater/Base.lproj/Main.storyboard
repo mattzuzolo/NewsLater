@@ -26,7 +26,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="o9b-Se-GbC" id="7lF-82-hCc">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Screen Shot 2015-02-17 at 7.13.17 AM.png" translatesAutoresizingMaskIntoConstraints="NO" id="e5q-C7-15m">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e5q-C7-15m">
                                                     <rect key="frame" x="23" y="4" width="122" height="77"/>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </imageView>
@@ -283,8 +283,9 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e68-ZA-UYx" id="HP2-00-4UN">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Screen Shot 2015-02-17 at 7.13.17 AM.png" translatesAutoresizingMaskIntoConstraints="NO" id="zep-Vo-fGf">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zep-Vo-fGf">
                                                     <rect key="frame" x="23" y="4" width="122" height="77"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULt-kl-f2f">
                                                     <rect key="frame" x="196" y="49" width="42" height="14"/>
@@ -423,9 +424,6 @@
             <point key="canvasLocation" x="217" y="-385"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Screen Shot 2015-02-17 at 7.13.17 AM.png" width="563" height="524"/>
-    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="2Ua-h4-bQX"/>
     </inferredMetricsTieBreakers>

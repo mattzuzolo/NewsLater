@@ -11,23 +11,15 @@ import UIKit
 class RecentlyReadViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    var dateFormatterNYT = NSDateFormatter()
-    var dateFormatterTG = NSDateFormatter()
     var recentlyRead: Array<Article>? = nil
     var selectedArticle: Article?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dateFormatterNYT.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        dateFormatterNYT.locale = NSLocale(localeIdentifier: "US_en_POSIX")
-        
-        dateFormatterTG.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-        dateFormatterTG.locale = NSLocale(localeIdentifier: "US_en_POSIX")
-        
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = tableView.frame.height / 5
+        tableView.rowHeight = (UIScreen.mainScreen().applicationFrame.height / 5) - ((44 + 44) / 5)
         
         //load articles from app delegate
         recentlyRead = appDelegate.getRecentlyRead()
@@ -55,20 +47,15 @@ class RecentlyReadViewController: UIViewController, UITableViewDataSource, UITab
         cell.title?.text = recentlyRead![indexPath.row].headline!
         
         var date: NSDate?
-        println(recentlyRead![indexPath.row].publishedDate!.description)
         
         if recentlyRead![indexPath.row].publication! == "The Guardian"{
-            println("The Guardian")
-            date = dateFormatterTG.dateFromString(recentlyRead![indexPath.row].publishedDate!.description)
+            cell.subtitle?.text = "The Guardian / \(recentlyRead![indexPath.row].printTimeInterval(appDelegate.dateFormatterTG))"
         }
         else{
-            println("NYT")
-            date = dateFormatterNYT.dateFromString(recentlyRead![indexPath.row].publishedDate!.description)
+            cell.subtitle?.text = "NY Times / \(recentlyRead![indexPath.row].printTimeInterval(appDelegate.dateFormatterNYT))"
         }
         
-        println(date)
-        cell.subtitle?.text = "\(recentlyRead![indexPath.row].publication!) / \(recentlyRead![indexPath.row].publishedDate!.description)"
-        
+        //get correct thumbnail or use image not found icon
         if (recentlyRead?[indexPath.row].thumbnailUrl == nil){
             cell.thumbnail.image = UIImage(named: "BlankThumbnail")
         }

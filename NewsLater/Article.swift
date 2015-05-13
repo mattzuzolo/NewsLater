@@ -51,5 +51,62 @@ class Article: NSObject, NSCoding {
         aCoder.encodeObject(self.tags, forKey: "tags")
 
     }
+    
+    func getTimeSincePublished(formatter: NSDateFormatter) -> NSTimeInterval{
+        let date = formatter.dateFromString(publishedDate!.description)
+        
+        if (date == nil){
+            return 0
+        }
+        
+        return date!.timeIntervalSinceNow
+    }
+    
+    func printTimeInterval(formatter: NSDateFormatter) -> String{
+        let interval = getTimeSincePublished(formatter)
+        
+        return intervalToOffset(interval)
+    }
+    
+    func intervalToOffset(interval: NSTimeInterval) -> String{
+        var retStr = ""
+        var intervalCpy = interval
+        
+        let years = floor(intervalCpy / 31536000)
+        intervalCpy -= years * 31536000
+        let months = floor(intervalCpy / 2592000)
+        intervalCpy -= months * 2592000
+        let days = floor(intervalCpy / 86400)
+        intervalCpy -= days * 86400
+        let hours = floor(intervalCpy / 3600)
+        intervalCpy -= hours * 3600
+        let min = intervalCpy / 60
+        intervalCpy -= min * 60
+
+        
+        if (years > 0){
+            retStr += "\(Int(years)) y)"
+        }
+        
+        if (months > 0){
+            retStr += " \(Int(months)) M"
+        }
+        
+        if (days > 0){
+            retStr += " \(Int(days)) d"
+        }
+        
+        if (hours > 0){
+            retStr += " \(Int(hours)) h"
+        }
+        
+        if (min > 0){
+            retStr += " \(Int(min)) m"
+        }
+        
+        retStr += " \(Int(intervalCpy)) s"
+        
+        return retStr
+    }
 }
 

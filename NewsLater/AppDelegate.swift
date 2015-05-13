@@ -19,6 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var articlesFile = ""
     var recentlyReadFile = ""
     let fileMgr = NSFileManager.defaultManager()
+    let secPerThreeDays: NSTimeInterval = 60 * 60 * 24 * 3
+    var dateFormatterNYT = NSDateFormatter()
+    var dateFormatterTG = NSDateFormatter()
+    
+    //View pointer for the feed so we can reload on open from background
+    var newsLaterFeedView : NewsLaterFeedController?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -29,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         readArticles = loadArticles(articlesFile)
         recentlyRead = loadArticles(recentlyReadFile)
+        
+        initDateFormatters()
         
         //for local notification
         if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
@@ -58,6 +66,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return nil
             }
         }
+    }
+    
+    func initDateFormatters(){
+        dateFormatterNYT.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'-5:00'"
+        dateFormatterNYT.locale = NSLocale(localeIdentifier: "US_en_POSIX")
+        
+        dateFormatterTG.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        dateFormatterTG.locale = NSLocale(localeIdentifier: "US_en_POSIX")
     }
     
 
@@ -104,11 +120,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             recentlyRead!.removeAtIndex(0)
         }
         saveArticles(recentlyRead, file: recentlyReadFile)
-        println(recentlyRead!.count)
     }
     
     func addReadArticles(newArticle: Article){
         readArticles?.append(newArticle)
+        saveArticles(readArticles, file: articlesFile)
+        trimArticles(readArticles)
+    }
+    
+    func trimArticles(var articles: [Article]?){
+        if articles != nil{
+            for var i = 0; i < articles!.count; i++ {
+                if (articles![i].publication! == "The Guardian"){
+                    if articles![i].getTimeSincePublished(dateFormatterTG) > secPerThreeDays{
+                        articles!.removeAtIndex(i)
+                    }
+                }
+                else{
+                    if articles![i].getTimeSincePublished(dateFormatterNYT) > secPerThreeDays {
+                        articles!.removeAtIndex(i)
+                    }
+                }
+            }
+        }
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -129,6 +163,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        //This fires on newly opening the app or pulling from the background
+        if(newsLaterFeedView != nil){
+            //Check the last time the app was opened. If never opened us default of 3 days
+            let lastReadNews = newsLaterFeedView!.defaults.objectForKey("lastReadNews") as! NSDate!
+            var daysForNewArticles = 3
+            if(lastReadNews != nil){
+                daysForNewArticles = Int(lastReadNews.timeIntervalSinceNow) * -1 / 3600
+                if(daysForNewArticles > 1){
+                    newsLaterFeedView!.defaults.setObject(NSDate(), forKey: "lastReadNews")
+                    //reset the currentFeed to 0 if it's been over an hour
+                    newsLaterFeedView!.currentArticles = []
+                }else{
+                    daysForNewArticles = daysForNewArticles / 24
+                }
+            }
+        
+            newsLaterFeedView!.reloadFilteredArticles(daysForNewArticles)
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
