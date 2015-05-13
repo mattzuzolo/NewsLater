@@ -15,10 +15,14 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     var currentArticles = Array<Article>()
     var articleRowHeight: CGFloat!
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+
     
     //Store user provided details in the future and for now the time since last opened.
     let defaults = NSUserDefaults.standardUserDefaults()
     var daysForNewArticles = 3
+    var preDay: String = "0"
+    var preHour: String = "00"
+    var fire: NSDate = NSDate()
     
     @IBOutlet weak var feedView: UITableView!
     
@@ -26,20 +30,24 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        loadData()
         //Set the view in the appDeligate
         appDelegate.newsLaterFeedView = self
         
         //set row height so that 5 stories will fill feed
-        articleRowHeight = (UIScreen.mainScreen().applicationFrame.height / 5) - ((44 + 20) / 5)
-        //feedView.rowHeight = feedView.frame.height / 5
+        //each row is (screen - status bar + navbar height + last cell height) / 5
+        articleRowHeight = (UIScreen.mainScreen().applicationFrame.height / 5) - ((44 + 44) / 5)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshView", name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
+        loadData()
+        
         var indexPath = NSIndexPath(forRow: 0, inSection: 1)
         self.feedView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadData:", name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -58,8 +66,15 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         if(indexPath.section == 0){
             let cell = tableView.dequeueReusableCellWithIdentifier("article_cell", forIndexPath: indexPath) as! ArticleTableViewCell
             cell.title?.text = currentArticles[indexPath.row].headline!
-            cell.subtitle?.text = currentArticles[indexPath.row].publishedDate?.description
-
+            
+            if currentArticles[indexPath.row].publication! == "The Guardian"{
+                cell.subtitle?.text = "The Guardian / \(currentArticles[indexPath.row].printTimeInterval(appDelegate.dateFormatterTG))"
+            }
+            else{
+                cell.subtitle?.text = "NY Times / \(currentArticles[indexPath.row].printTimeInterval(appDelegate.dateFormatterNYT))"
+            }
+            
+            
             if (currentArticles[indexPath.row].thumbnailUrl == nil){
                 cell.thumbnail.image = UIImage(named: "BlankThumbnail")
             }
@@ -78,12 +93,46 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
             return cell
         }else{
             var cell2 = tableView.dequeueReusableCellWithIdentifier("setting_cell", forIndexPath: indexPath) as!  ReminderTableViewCell
-            cell2.title?.text = "Remind me to come back!"
+            //check fire date againest current date
+            var current = NSDate()
+            //if current is greater than or equal to fire => notification has been fired
+            if (current.compare(fire) == NSComparisonResult.OrderedDescending || current.compare(fire) == NSComparisonResult.OrderedSame){
+                cell2.title?.text = "Remind me to come back!"
+            }else{
+                cell2.title?.text = "Reminder in \(preDay) day(s)  \(preHour) hour(s)!"
+            }
             cell2.title?.textColor = UIColor.redColor()
             return cell2
         }
     }
+    
+    func loadData(){ //load settings
+        var defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        if let dayIsNotNil = defaults.objectForKey("day") as? String {
+            preDay = defaults.objectForKey("day") as! String
+        }
+        if let hourIsNotNill = defaults.objectForKey("hour") as? String {
+            preHour = defaults.objectForKey("hour") as! String
+        }
+        if let setFireIsNotNill = defaults.objectForKey("fireTime") as? NSDate {
+            fire = defaults.objectForKey("fireTime") as! NSDate
+        }
+    }
+    
+    func loadData(notification:NSNotification){
+        loadData()
+        var indexPath = NSIndexPath(forRow: 0, inSection: 1)
+        self.feedView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+    }
 
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        if(indexPath.section == 0){
+            return UITableViewCellEditingStyle.Delete
+        }else{
+            return UITableViewCellEditingStyle.None
+        }
+    }
+    
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if(indexPath.section == 0){
 			if editingStyle == UITableViewCellEditingStyle.Delete {
