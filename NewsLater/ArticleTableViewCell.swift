@@ -31,7 +31,7 @@ class ArticleTableViewCell: UITableViewCell {
         let views = ["thumbnail": self.thumbnail, "title": self.title, "subtitle": self.subtitle]
         
         //Visual Format Language representation of needed constraints
-        let imageHStr = "H:|-\(width / 10)-[thumbnail(\(height * 8 / 10))]-(<=\(width - ((8 * height / 10) + width / 10)))-|"
+        let imageHStr = "H:|-\(width / 10)-[thumbnail(\(height * 8 / 10))]-(>=\(width - ((8 * height / 10) + width / 10)))-|"
         let imageVStr = "V:|-\(height / 10)-[thumbnail(\(height * 8 / 10))]-(<=\(height / 10))-|"
         let titleHStr = "H:|-\((2 * width / 10) + (height * 8 / 10))-[title]-|"
         let subtitleHStr = "H:|-\((2 * width / 10) + (height * 8 / 10))-[subtitle]-|"
