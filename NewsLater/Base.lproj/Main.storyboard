@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Wmp-M8-cNh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="XYn-Db-KtJ">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
-        <!--News Later Feed Controller-->
+        <!--Title-->
         <scene sceneID="YAM-mU-O2z">
             <objects>
                 <viewController id="Wmp-M8-cNh" customClass="NewsLaterFeedController" customModule="NewsLater" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="W7v-US-IQx">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="article_cell" rowHeight="86" id="o9b-Se-GbC" customClass="ArticleTableViewCell" customModule="NewsLater" customModuleProvider="target">
@@ -69,8 +69,8 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rz9-EZ-ZZf" id="sOV-uo-3Pp">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmp-6V-PtP">
-                                                    <rect key="frame" x="35" y="14" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmp-6V-PtP">
+                                                    <rect key="frame" x="263" y="11" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -91,41 +91,23 @@
                                     <outlet property="delegate" destination="Wmp-M8-cNh" id="1mT-dA-kFP"/>
                                 </connections>
                             </tableView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DsX-yd-4Hq">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="barTintColor" red="1" green="0.25800622919999999" blue="0.13818088519999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem title="Title" id="oPd-gN-SBE">
-                                        <barButtonItem key="rightBarButtonItem" title="History" id="UYP-np-Uhg">
-                                            <connections>
-                                                <segue destination="Il3-yY-NjD" kind="show" identifier="show_history" id="fWj-Ap-tkf"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="DsX-yd-4Hq" firstAttribute="leading" secondItem="93d-0N-uPX" secondAttribute="leading" id="2vb-SX-DBN"/>
-                            <constraint firstItem="W7v-US-IQx" firstAttribute="top" secondItem="DsX-yd-4Hq" secondAttribute="bottom" id="5QH-El-1J6"/>
-                            <constraint firstItem="DsX-yd-4Hq" firstAttribute="top" secondItem="hva-2W-vXG" secondAttribute="bottom" id="Ndn-ny-DYR"/>
                             <constraint firstAttribute="bottom" secondItem="W7v-US-IQx" secondAttribute="bottom" id="RKv-rc-MuL"/>
-                            <constraint firstItem="DsX-yd-4Hq" firstAttribute="top" secondItem="93d-0N-uPX" secondAttribute="top" id="czh-HP-Mg1"/>
-                            <constraint firstAttribute="trailing" secondItem="DsX-yd-4Hq" secondAttribute="trailing" id="lhS-lU-pzW"/>
+                            <constraint firstItem="W7v-US-IQx" firstAttribute="top" secondItem="93d-0N-uPX" secondAttribute="top" id="WcG-nX-ZbJ"/>
                             <constraint firstAttribute="trailing" secondItem="W7v-US-IQx" secondAttribute="trailing" id="x1H-sc-bHm"/>
                             <constraint firstItem="W7v-US-IQx" firstAttribute="leading" secondItem="93d-0N-uPX" secondAttribute="leading" id="yRT-Mk-Pkh"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="czh-HP-Mg1"/>
-                            </mask>
-                        </variation>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="H5q-PG-uS1">
+                        <barButtonItem key="rightBarButtonItem" title="History" id="UYP-np-Uhg">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="Il3-yY-NjD" kind="show" identifier="show_history" id="fWj-Ap-tkf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="feedView" destination="W7v-US-IQx" id="6TG-fq-8HU"/>
                         <segue destination="LAI-zI-d0b" kind="show" identifier="toArticle" id="qqM-dS-P0b"/>
@@ -134,9 +116,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rdO-MH-APD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="217" y="-385"/>
+            <point key="canvasLocation" x="1029" y="-385"/>
         </scene>
-        <!--Reminders View Controller-->
+        <!--Reminder-->
         <scene sceneID="D24-dK-xRE">
             <objects>
                 <viewController id="Tr8-Rk-8So" customClass="RemindersViewController" customModule="NewsLater" customModuleProvider="target" sceneMemberID="viewController">
@@ -148,14 +130,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xiD-hm-DjF">
-                                <rect key="frame" x="11" y="20" width="47" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="xDh-Rb-9Cz"/>
-                                </items>
-                            </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MGo-hH-E39">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="staticCellType" textLabel="xQF-hg-jkX" style="IBUITableViewCellStyleDefault" id="4qS-3I-SXH">
@@ -200,42 +176,30 @@
                                     <outlet property="delegate" destination="Tr8-Rk-8So" id="q0j-ev-YKi"/>
                                 </connections>
                             </tableView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HXN-yI-Rqt">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="barTintColor" red="1" green="0.25800622919999999" blue="0.13818088519999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem title="Reminder" id="Bzb-np-zqX">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="mty-9B-Z03">
-                                            <connections>
-                                                <segue destination="KWX-Tf-BA9" kind="unwind" identifier="returnToFeed" unwindAction="returnToFeed:" id="W45-iv-66L"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="GLA-7d-6I2">
-                                            <connections>
-                                                <action selector="setReminder:" destination="Tr8-Rk-8So" id="dMw-5M-rDa"/>
-                                                <segue destination="KWX-Tf-BA9" kind="unwind" identifier="saveToFeed" unwindAction="saveToFeed:" id="fXe-po-m5S"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="HXN-yI-Rqt" secondAttribute="trailing" id="3fn-1R-Fng"/>
-                            <constraint firstItem="xiD-hm-DjF" firstAttribute="top" secondItem="ZEy-Lj-8DW" secondAttribute="bottom" id="7LL-iZ-mNe"/>
-                            <constraint firstItem="HXN-yI-Rqt" firstAttribute="leading" secondItem="BVn-QD-aaj" secondAttribute="leading" id="A4U-qd-Peg"/>
                             <constraint firstAttribute="trailing" secondItem="MGo-hH-E39" secondAttribute="trailing" id="EH0-uw-pRc"/>
-                            <constraint firstItem="HXN-yI-Rqt" firstAttribute="top" secondItem="ZEy-Lj-8DW" secondAttribute="bottom" id="Lzx-0D-cRd"/>
-                            <constraint firstItem="MGo-hH-E39" firstAttribute="top" secondItem="HXN-yI-Rqt" secondAttribute="bottom" id="Qiv-kV-WMg"/>
+                            <constraint firstItem="MGo-hH-E39" firstAttribute="top" secondItem="BVn-QD-aaj" secondAttribute="top" id="THj-pZ-h1W"/>
                             <constraint firstItem="MGo-hH-E39" firstAttribute="leading" secondItem="BVn-QD-aaj" secondAttribute="leading" id="cd3-tC-cLJ"/>
                             <constraint firstAttribute="bottom" secondItem="MGo-hH-E39" secondAttribute="bottom" id="gcI-Fz-XGQ"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Reminder" id="Bzb-np-zqX">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="mty-9B-Z03">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="KWX-Tf-BA9" kind="unwind" identifier="returnToFeed" unwindAction="returnToFeed:" id="W45-iv-66L"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="GLA-7d-6I2">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="setReminder:" destination="Tr8-Rk-8So" id="dMw-5M-rDa"/>
+                                <segue destination="KWX-Tf-BA9" kind="unwind" identifier="saveToFeed" unwindAction="saveToFeed:" id="fXe-po-m5S"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="doneBut" destination="GLA-7d-6I2" id="6HU-EJ-vPx"/>
                         <outlet property="reminderTable" destination="MGo-hH-E39" id="PPP-QG-zzv"/>
@@ -247,7 +211,7 @@
             </objects>
             <point key="canvasLocation" x="217" y="416"/>
         </scene>
-        <!--Reminder Picker View Controller-->
+        <!--Edit Reminder-->
         <scene sceneID="92B-KZ-U88">
             <objects>
                 <viewController id="gVJ-GI-Gfz" customClass="ReminderPickerViewController" customModule="NewsLater" customModuleProvider="target" sceneMemberID="viewController">
@@ -259,45 +223,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pickerView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yrE-BH-sHl">
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yrE-BH-sHl">
                                 <rect key="frame" x="0.0" y="83" width="600" height="162"/>
                             </pickerView>
-                            <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pz4-Km-kgu">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="barTintColor" red="1" green="0.25800622922709193" blue="0.13818088524348371" alpha="1" colorSpace="calibratedRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem title="Edit Reminder" id="6z1-Sk-ko9">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="pHU-Uf-uND">
-                                            <connections>
-                                                <action selector="backToReminder:" destination="gVJ-GI-Gfz" id="ePT-5l-E1C"/>
-                                                <segue destination="3Xn-eC-bwh" kind="unwind" identifier="returnToReminderList" unwindAction="returnToReminderList:" id="JEt-Gp-KWn"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="eNt-hz-8Ls">
-                                            <connections>
-                                                <action selector="saveReminder:" destination="gVJ-GI-Gfz" id="xNz-oJ-tyN"/>
-                                                <segue destination="3Xn-eC-bwh" kind="unwind" identifier="saveToReminderList" unwindAction="saveToReminderList:" id="be1-aA-k62"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Pz4-Km-kgu" firstAttribute="top" secondItem="dxH-WI-eyG" secondAttribute="bottom" id="2a1-7v-Yb1"/>
-                            <constraint firstAttribute="trailing" secondItem="Pz4-Km-kgu" secondAttribute="trailing" id="Ck4-Xo-hgt"/>
                             <constraint firstAttribute="bottom" secondItem="yrE-BH-sHl" secondAttribute="bottom" constant="355" id="F8K-bm-HqT"/>
-                            <constraint firstItem="Pz4-Km-kgu" firstAttribute="leading" secondItem="lxX-Er-7uY" secondAttribute="leading" id="Flb-6f-OVp"/>
-                            <constraint firstItem="yrE-BH-sHl" firstAttribute="top" secondItem="Pz4-Km-kgu" secondAttribute="bottom" id="NZl-cX-F7g"/>
                             <constraint firstItem="yrE-BH-sHl" firstAttribute="leading" secondItem="lxX-Er-7uY" secondAttribute="leading" id="cid-ir-7FW"/>
                             <constraint firstAttribute="trailing" secondItem="yrE-BH-sHl" secondAttribute="trailing" id="hCO-Qx-dqS"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Edit Reminder" id="6z1-Sk-ko9">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="pHU-Uf-uND">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="backToReminder:" destination="gVJ-GI-Gfz" id="ePT-5l-E1C"/>
+                                <segue destination="3Xn-eC-bwh" kind="unwind" identifier="returnToReminderList" unwindAction="returnToReminderList:" id="JEt-Gp-KWn"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="eNt-hz-8Ls">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="saveReminder:" destination="gVJ-GI-Gfz" id="xNz-oJ-tyN"/>
+                                <segue destination="3Xn-eC-bwh" kind="unwind" identifier="saveToReminderList" unwindAction="saveToReminderList:" id="be1-aA-k62"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="reminderTimePicker" destination="yrE-BH-sHl" id="szI-Sr-j3k"/>
                         <outlet property="save" destination="eNt-hz-8Ls" id="C1K-SJ-ykd"/>
@@ -308,7 +260,7 @@
             </objects>
             <point key="canvasLocation" x="217" y="1134"/>
         </scene>
-        <!--Recently Read View Controller-->
+        <!--History-->
         <scene sceneID="5M0-fy-lZd">
             <objects>
                 <viewController id="Il3-yY-NjD" customClass="RecentlyReadViewController" customModule="NewsLater" customModuleProvider="target" sceneMemberID="viewController">
@@ -320,25 +272,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OVZ-yG-5CO">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="barTintColor" red="1" green="0.25800622919999999" blue="0.13818088519999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem title="History" id="VAa-oO-YD9">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="jcw-92-zvg">
-                                            <connections>
-                                                <segue destination="vu9-F8-Qgc" kind="unwind" unwindAction="returnToFeed:" id="JyN-k2-fZm"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="btm-lG-mzH">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleAspectFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="article_cell" rowHeight="86" id="e68-ZA-UYx" customClass="ArticleTableViewCell" customModule="NewsLater" customModuleProvider="target">
@@ -391,18 +326,17 @@
                             <constraint firstAttribute="bottom" secondItem="btm-lG-mzH" secondAttribute="bottom" id="4ga-L3-WY8"/>
                             <constraint firstAttribute="trailing" secondItem="btm-lG-mzH" secondAttribute="trailing" id="LOx-yX-VdF"/>
                             <constraint firstItem="btm-lG-mzH" firstAttribute="leading" secondItem="pmw-bD-FJB" secondAttribute="leading" id="O3r-Sg-smR"/>
-                            <constraint firstAttribute="trailing" secondItem="OVZ-yG-5CO" secondAttribute="trailing" id="Vmu-rz-yGa"/>
-                            <constraint firstItem="OVZ-yG-5CO" firstAttribute="top" secondItem="pmw-bD-FJB" secondAttribute="top" id="YkL-Ra-CLt"/>
-                            <constraint firstItem="btm-lG-mzH" firstAttribute="top" secondItem="OVZ-yG-5CO" secondAttribute="bottom" id="iaf-Rh-C9j"/>
-                            <constraint firstItem="OVZ-yG-5CO" firstAttribute="leading" secondItem="pmw-bD-FJB" secondAttribute="leading" id="qCE-gY-HcL"/>
-                            <constraint firstItem="OVZ-yG-5CO" firstAttribute="top" secondItem="8Nu-Ev-L2Z" secondAttribute="bottom" id="vdH-ax-Ojb"/>
+                            <constraint firstItem="btm-lG-mzH" firstAttribute="top" secondItem="pmw-bD-FJB" secondAttribute="top" id="VfG-3L-vs7"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="YkL-Ra-CLt"/>
-                            </mask>
-                        </variation>
                     </view>
+                    <navigationItem key="navigationItem" title="History" id="VAa-oO-YD9">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="jcw-92-zvg">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="vu9-F8-Qgc" kind="unwind" unwindAction="returnToFeed:" id="JyN-k2-fZm"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="btm-lG-mzH" id="57a-UG-VpO"/>
                         <segue destination="LAI-zI-d0b" kind="show" identifier="historyToArticle" id="2Ua-h4-bQX"/>
@@ -412,9 +346,9 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TMo-Rp-etN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="vu9-F8-Qgc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1075" y="-406"/>
+            <point key="canvasLocation" x="1887" y="-406"/>
         </scene>
-        <!--Article View Controller-->
+        <!--Title-->
         <scene sceneID="9md-o7-GXQ">
             <objects>
                 <viewController id="LAI-zI-d0b" customClass="ArticleViewController" customModule="NewsLater" customModuleProvider="target" sceneMemberID="viewController">
@@ -426,51 +360,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jd7-Ce-Uv3">
-                                <rect key="frame" x="-55" y="20" width="20" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="Bed-Wf-nDL"/>
-                                </items>
-                            </navigationBar>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oQ8-Qa-GsI">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="barTintColor" red="1" green="0.25800622919999999" blue="0.13818088519999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem title="Title" id="FUf-1y-iVo">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="C34-nz-UVE">
-                                            <connections>
-                                                <action selector="back:" destination="LAI-zI-d0b" id="lH6-yg-dnx"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="UFF-Ha-qBl">
-                                            <connections>
-                                                <action selector="share:" destination="LAI-zI-d0b" id="mdi-B8-2Ud"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aCz-0B-dgd">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="aCz-0B-dgd" secondAttribute="bottom" id="5Tn-pO-BdZ"/>
-                            <constraint firstItem="oQ8-Qa-GsI" firstAttribute="leading" secondItem="JbB-Wa-lel" secondAttribute="leading" id="C88-TK-3Be"/>
-                            <constraint firstItem="oQ8-Qa-GsI" firstAttribute="top" secondItem="7Bf-Dl-X9E" secondAttribute="bottom" id="Kue-Dh-OGp"/>
-                            <constraint firstItem="aCz-0B-dgd" firstAttribute="top" secondItem="oQ8-Qa-GsI" secondAttribute="bottom" id="ONT-CZ-F2I"/>
                             <constraint firstAttribute="trailing" secondItem="aCz-0B-dgd" secondAttribute="trailing" id="QRr-IG-T32"/>
-                            <constraint firstAttribute="trailing" secondItem="oQ8-Qa-GsI" secondAttribute="trailing" id="Zom-77-OiN"/>
                             <constraint firstItem="aCz-0B-dgd" firstAttribute="leading" secondItem="JbB-Wa-lel" secondAttribute="leading" id="cA5-mK-hPR"/>
-                            <constraint firstItem="jd7-Ce-Uv3" firstAttribute="top" secondItem="7Bf-Dl-X9E" secondAttribute="bottom" id="cEA-OH-nqj"/>
+                            <constraint firstItem="aCz-0B-dgd" firstAttribute="top" secondItem="JbB-Wa-lel" secondAttribute="top" id="ggY-pO-8q1"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="FUf-1y-iVo">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="C34-nz-UVE">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="back:" destination="LAI-zI-d0b" id="lH6-yg-dnx"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="UFF-Ha-qBl">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="share:" destination="LAI-zI-d0b" id="mdi-B8-2Ud"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="articleNavBar" destination="FUf-1y-iVo" id="lwT-AR-B6v"/>
                         <outlet property="articleWebView" destination="aCz-0B-dgd" id="9UL-G0-fkN"/>
@@ -483,11 +399,33 @@
             </objects>
             <point key="canvasLocation" x="1085" y="355"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qii-Xe-3qf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XYn-Db-KtJ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fvg-UX-POU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="1" green="0.25800622919999999" blue="0.13818088519999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Wmp-M8-cNh" kind="relationship" relationship="rootViewController" id="9dI-lg-1e4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jeD-Fo-L8J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="217" y="-385"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Screen Shot 2015-02-17 at 7.13.17 AM.png" width="563" height="524"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qqM-dS-P0b"/>
+        <segue reference="2Ua-h4-bQX"/>
     </inferredMetricsTieBreakers>
 </document>
