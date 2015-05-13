@@ -22,6 +22,8 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
     
     @IBOutlet weak var feedView: UITableView!
     
+    @IBOutlet weak var feedViewTitle: UINavigationItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,18 +34,7 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         articleRowHeight = (UIScreen.mainScreen().applicationFrame.height / 5) - ((44 + 20) / 5)
         //feedView.rowHeight = feedView.frame.height / 5
         
-        /*Check the last time the app was opened. If never opened us default of 3 days
-        let lastReadNews = defaults.objectForKey("lastReadNews") as! NSDate!
-        if(lastReadNews != nil){
-            daysForNewArticles = Int(lastReadNews.timeIntervalSinceNow) * -1 / 3600
-            if(daysForNewArticles > 1){
-                defaults.setObject(NSDate(), forKey: "lastReadNews")
-            }else{
-                daysForNewArticles = daysForNewArticles / 24
-            }
-        }
-        
-        reloadFilteredArticles(daysForNewArticles)*/
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshView", name: UIApplicationDidBecomeActiveNotification, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -166,6 +157,34 @@ class NewsLaterFeedController: UIViewController, UITableViewDataSource, UITableV
         }))
         
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func refreshView(){
+        var hoursForNewArticles : Int
+        //Check the last time the app was opened. If never opened use default of 3 days
+        let lastReadNews = defaults.objectForKey("lastReadNews") as! NSDate!
+        if(lastReadNews != nil){
+            hoursForNewArticles = Int(lastReadNews.timeIntervalSinceNow) * -1 / 3600
+            if(hoursForNewArticles > 0){
+                defaults.setObject(NSDate(), forKey: "lastReadNews")
+                daysForNewArticles = hoursForNewArticles / 24
+                reloadFilteredArticles(daysForNewArticles)
+            }else if(self.currentArticles.isEmpty){
+                daysForNewArticles = 0
+                reloadFilteredArticles(daysForNewArticles)
+            }
+            if(daysForNewArticles == 0){
+                feedViewTitle.title = ("Past " + String((hoursForNewArticles == 0 ? hoursForNewArticles + 1 : hoursForNewArticles)) + (hoursForNewArticles < 2 ? " hour" : " hours"))
+            } else{
+                feedViewTitle.title = ("Past " + String(daysForNewArticles > 7 ? 7 : daysForNewArticles) + (daysForNewArticles < 2 ? " day" : " days"))
+            }
+        } else{
+            reloadFilteredArticles(daysForNewArticles)
+            feedViewTitle.title = ("Past " + String(daysForNewArticles) + (daysForNewArticles < 2 ? " day" : " days"))
+        }
+        
+        
+        
     }
     
     func reloadFilteredArticles(days: Int){

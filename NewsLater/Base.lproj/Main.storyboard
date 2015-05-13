@@ -110,6 +110,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="feedView" destination="W7v-US-IQx" id="6TG-fq-8HU"/>
+                        <outlet property="feedViewTitle" destination="H5q-PG-uS1" id="6Gh-fo-d0H"/>
                         <segue destination="LAI-zI-d0b" kind="show" identifier="toArticle" id="qqM-dS-P0b"/>
                         <segue destination="Tr8-Rk-8So" kind="show" identifier="toReminder" id="g35-j4-mZS"/>
                     </connections>
@@ -409,7 +410,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="1" green="0.25800622919999999" blue="0.13818088519999999" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -426,6 +427,6 @@
         <image name="Screen Shot 2015-02-17 at 7.13.17 AM.png" width="563" height="524"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2Ua-h4-bQX"/>
+        <segue reference="qqM-dS-P0b"/>
     </inferredMetricsTieBreakers>
 </document>
